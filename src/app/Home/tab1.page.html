@@ -1,6 +1,12 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="text-align: center"> Home </ion-title>
+    <ion-row>
+      <ion-title style="text-align: center;margin-left: 2.5rem;"> Home </ion-title>
+      <ion-button class="bigEntrance"shape="round" fill="clear" size="small" (click)="authService.logout()">
+        <ion-icon name="log-in-outline"></ion-icon>
+      </ion-button>
+    </ion-row>
+
   </ion-toolbar>
 </ion-header>
 
@@ -23,8 +29,7 @@
       <h5>Today - {{date}}</h5>
     </ion-row>
     <ion-row>
-
-      <nz-card style="width: 21rem" class="slideLeft">
+      <nz-card style="width: 21rem">
         <nz-skeleton
           [nzActive]="true"
           [nzLoading]="false"
@@ -35,9 +40,9 @@
             nzTitle="Computer Science class"
             [nzDescription]="description"
           ></nz-card-meta>
-          <ng-template #description> 
-          <p>10:00 - 12:00</p> 
-          <p> On Teams</p>
+          <ng-template #description>
+            <p>10:00 - 12:00</p>
+            <p>On Teams</p>
           </ng-template>
         </nz-skeleton>
       </nz-card>
@@ -45,7 +50,7 @@
         <circle-progress
           [radius]="40"
           [percent]="remainingTime$|async"
-          [maxPercent]='totlaDuration'
+          [maxPercent]="totlaDuration"
           units="Mins"
           [outerStrokeWidth]="2"
           [outerStrokeColor]="'#2ecc71'"
@@ -58,7 +63,6 @@
           [animationDuration]="600"
         ></circle-progress>
       </ng-template>
-
     </ion-row>
     <ion-row>
       <nz-card style="width: 21rem" [nzTitle]="classroom">

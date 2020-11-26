@@ -1,3 +1,4 @@
+import { AuthFirebaseService } from './../services/authFirebase.service';
 import { Component, TemplateRef } from '@angular/core';
 import { timer, Observable, BehaviorSubject } from 'rxjs';
 import { scan, takeWhile } from 'rxjs/operators';
@@ -38,7 +39,7 @@ export class Tab1Page {
       seconds
     };
   }
-  constructor() {
+  constructor(public  authService: AuthFirebaseService) {
   }
 
 }

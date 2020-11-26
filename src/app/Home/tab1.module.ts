@@ -1,4 +1,4 @@
-import { TimePipe } from './../helper/pipes/time.pipe';
+import { TimePipe } from "./../helper/pipes/time.pipe";
 import { AntdModule } from "../antd.module";
 import { IonicModule } from "@ionic/angular";
 import { NgModule } from "@angular/core";
@@ -19,9 +19,9 @@ import { NgCircleProgressModule } from "ng-circle-progress";
     Tab1PageRoutingModule,
     AntdModule,
     NgCircleProgressModule.forRoot({
-      "startFromZero": false
+      startFromZero: false,
     }),
   ],
-  declarations: [Tab1Page,TimePipe],
+  declarations: [Tab1Page, TimePipe],
 })
 export class Tab1PageModule {}
