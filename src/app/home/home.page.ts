@@ -1,14 +1,14 @@
-import { AuthFirebaseService } from './../services/authFirebase.service';
-import { Component, TemplateRef } from '@angular/core';
-import { timer, Observable, BehaviorSubject } from 'rxjs';
+import { AuthFirebaseService } from '../services/authFirebase.service';
+import { Component } from '@angular/core';
+import { timer, BehaviorSubject } from 'rxjs';
 import { scan, takeWhile } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss']
 })
-export class Tab1Page {
+export class HomePage {
   totlaDuration : number = 120;
   percentage : BehaviorSubject<number>;
   remainingTime$ = timer(0,60000).pipe(
