@@ -17,6 +17,8 @@ import { NgCircleProgressModule } from "ng-circle-progress";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +33,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule
 
   ],
   providers: [
