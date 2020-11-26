@@ -1,0 +1,92 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title style="text-align: center"> Home </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense" class="ion-no-border">
+    <ion-toolbar>
+      <ion-title style="text-align: center" size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-refresher slot="fixed">
+    <ion-refresher-content
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row>
+      <h5>Today - {{date}}</h5>
+    </ion-row>
+    <ion-row>
+
+      <nz-card style="width: 21rem" class="slideLeft">
+        <nz-skeleton
+          [nzActive]="true"
+          [nzLoading]="false"
+          [nzAvatar]="{ size: 'large' }"
+        >
+          <nz-card-meta
+            [nzAvatar]="avatarTemplate"
+            nzTitle="Computer Science class"
+            [nzDescription]="description"
+          ></nz-card-meta>
+          <ng-template #description> 
+          <p>10:00 - 12:00</p> 
+          <p> On Teams</p>
+          </ng-template>
+        </nz-skeleton>
+      </nz-card>
+      <ng-template #avatarTemplate>
+        <circle-progress
+          [radius]="40"
+          [percent]="remainingTime$|async"
+          [maxPercent]='totlaDuration'
+          units="Mins"
+          [outerStrokeWidth]="2"
+          [outerStrokeColor]="'#2ecc71'"
+          [innerStrokeWidth]="2"
+          [innerStrokeColor]="'#e7e8ea'"
+          startFromZero="false"
+          [clockwise]="true"
+          [backgroundPadding]="0"
+          [animation]="true"
+          [animationDuration]="600"
+        ></circle-progress>
+      </ng-template>
+
+    </ion-row>
+    <ion-row>
+      <nz-card style="width: 21rem" [nzTitle]="classroom">
+        <ng-template #classroom>
+          <h6 style="text-align: center; margin: 0">Classes</h6>
+        </ng-template>
+        <nz-skeleton [nzActive]="true" [nzLoading]="true">
+          <nz-card-meta
+            nzTitle="Card title"
+            [nzDescription]="description"
+          ></nz-card-meta>
+          <ng-template #description>
+            <p>Card content</p>
+            <p>Card content</p>
+            <p>Card content</p>
+          </ng-template>
+        </nz-skeleton>
+      </nz-card>
+    </ion-row>
+    <ion-row style="margin-bottom: 20%">
+      <nz-card style="width: 21rem" [nzTitle]="task">
+        <p>Card content</p>
+        <p>Card content</p>
+        <p>Card content</p>
+      </nz-card>
+      <ng-template #task>
+        <h6 style="text-align: center; margin: 0">Tasks</h6>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
+</ion-content>

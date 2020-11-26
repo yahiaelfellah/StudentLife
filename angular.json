@@ -34,9 +34,14 @@
             "styles": [
               {
                 "input": "src/theme/variables.scss"
+                
               },
               {
                 "input": "src/global.scss"
+              },
+              {
+                "input": "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+
               }
             ],
             "scripts": []

@@ -1,0 +1,24 @@
+#login {
+    align-self: center;
+    position: relative;
+    top: 30%;
+}
+input, nz-input-group{
+    border-radius: 10px;
+}
+.form-group {
+    margin-top: 2%;
+}
+.social-group {
+    button{
+        margin-top: 2%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    display: flex;
+    flex-direction: column;
+}
+.loading-wrapper.sc-ion-loading-md {
+    border-radius: 11px;
+}
