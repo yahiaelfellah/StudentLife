@@ -59,6 +59,7 @@ export class LoginPage implements OnInit {
       .login(this.f.username.value, this.f.password.value)
       .then((success) => {
         loading.dismiss();
+        this.loading = false;
         this.router.navigate(['home']);
       });
   }
