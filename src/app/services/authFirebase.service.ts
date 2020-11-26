@@ -6,24 +6,19 @@ import { User } from "../models/user.model";
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as firebase from "firebase/app";
 import { GooglePlus } from "@ionic-native/google-plus/ngx";
+import { redirectUnauthorizedTo } from "@angular/fire/auth-guard";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthFirebaseService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-
   constructor(
     private afAuth: AngularFireAuth,
     private gplus: GooglePlus,
-    private platform: Platform
-  ) {
-    this.currentUserSubject = new BehaviorSubject<User>(null);
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+    private platform: Platform,
+    private router: Router,
+  ) {}
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
-  }
+
 
   async login(username, password) {
     return this.afAuth.signInWithEmailAndPassword(username, password);
@@ -56,7 +51,6 @@ export class AuthFirebaseService {
     try {
       const provider = new firebase.default.auth.GoogleAuthProvider();
       const credential = await this.afAuth.signInWithPopup(provider);
-      this.currentUserSubject.next(credential.user);
     } catch (err) {
       console.log(err);
     }
@@ -64,8 +58,7 @@ export class AuthFirebaseService {
 
   async logout() {
     await this.afAuth.signOut().then(() => {
-      localStorage.removeItem("currentUser");
-      this.currentUserSubject.next(null);
+        this.router.navigate(['/login']);
     });
   }
 }
