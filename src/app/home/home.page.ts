@@ -1,5 +1,6 @@
+import { TaskService } from './../services/task.service';
 import { AuthFirebaseService } from '../services/authFirebase.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { timer, BehaviorSubject } from 'rxjs';
 import { scan, takeWhile } from 'rxjs/operators';
 
@@ -8,7 +9,7 @@ import { scan, takeWhile } from 'rxjs/operators';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage {
+export class HomePage implements OnInit {
   totlaDuration : number = 120;
   percentage : BehaviorSubject<number>;
   remainingTime$ = timer(0,60000).pipe(
@@ -39,7 +40,9 @@ export class HomePage {
       seconds
     };
   }
-  constructor(public  authService: AuthFirebaseService) {
+  constructor(public  authService: AuthFirebaseService, private taskService : TaskService) {
+  }
+  ngOnInit(): void {
   }
 
 }
