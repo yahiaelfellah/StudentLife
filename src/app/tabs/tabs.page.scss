@@ -41,3 +41,12 @@ ion-tabs{
 		}
 	}
 }
+::ng-deep .my-custom-class .action-sheet-group.sc-ion-action-sheet-md{
+    border-radius: 20px;
+    margin: 1% 2% 1% 2%;
+}
+::ng-deep .my-custom-modal-class .modal-wrapper {
+    height: 83%;
+    margin: 1%;
+    border-radius: 20px;
+ }
