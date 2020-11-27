@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
 
     this.loading = true;
     const loading = await this.loadingController.create({
-      cssClass: "loading",
+      cssClass: "custom-laoding",
       message: "Please wait...",
     });
     await loading.present();
