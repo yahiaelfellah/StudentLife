@@ -1,0 +1,16 @@
+<div class="card-placeholder">
+  <ion-card button="true" (click)="this.toggleCard()">
+    <ion-card-header>
+      <ion-card-title>
+        <ng-content select=".card-title"></ng-content>
+      </ion-card-title>
+        <ng-content #image select=".card-image" style="margin-right: -24%;"></ng-content>
+      <ion-button fill="clear">
+        <!-- <ion-icon name="close" slot="icon-only" color="dark"></ion-icon> -->
+      </ion-button>
+    </ion-card-header>
+    <ion-card-content>
+      <ng-content select=".card-content"></ng-content>
+    </ion-card-content>
+  </ion-card>
+</div>
