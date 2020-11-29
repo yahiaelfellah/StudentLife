@@ -1,6 +1,8 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { AntdModule } from './../../antd.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -8,13 +10,17 @@ import { ModalPageRoutingModule } from './modal-routing.module';
 
 import { ModalPage } from './modal.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ModalPageRoutingModule
+    ReactiveFormsModule,
+    ModalPageRoutingModule,
+    AntdModule,
   ],
-  declarations: [ModalPage]
+  declarations: [ModalPage],
+
 })
 export class ModalPageModule {}

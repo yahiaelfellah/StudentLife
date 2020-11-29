@@ -73,8 +73,6 @@ export class MyCardComponent implements AfterViewInit {
       toggleContentAnimation,
       toggleCloseAnimation,
     ]);
-    let imgEl = document.getElementsByTagName("rb-letter-avatar")[0]
-    console.log(imgEl.lastChild)
   }
 
   async presentToast() {

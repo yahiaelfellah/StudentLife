@@ -10,4 +10,28 @@
       <ion-title style="text-align: center" size="large"> Classes </ion-title>
     </ion-toolbar>
   </ion-header>
+    <my-card *ngFor="let class of classValue">
+      <span class="card-title">{{class.title}}</span>
+      <span class="card-image">
+        <rb-letter-avatar [avatar-data]='class.title' ></rb-letter-avatar>
+      </span>
+      <span class="card-content">
+        <div>
+          <nz-descriptions nzBordered nzLayout="vertical" nzSize="middle">
+            <nz-descriptions-item nzTitle="Day">{{class.day}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Start Time"[nzSpan]="2">{{getTime(class.startTime)}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="End Time" [nzSpan]="2">{{getTime(class.endTime)}}</nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
+              {{class.description}}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+              <nz-badge nzStatus="processing" nzText="Running" [nzStandalone]='true'></nz-badge>
+            </nz-descriptions-item>
+          </nz-descriptions>
+
+        </div>
+      </span>
+    </my-card>
+
 </ion-content>

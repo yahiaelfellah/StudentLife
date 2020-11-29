@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { ModalPage } from "../components/modal/modal.page";
+import { MymodalPage } from "../components/mymodal/mymodal.page";
 
 @Component({
   selector: "app-tabs",
@@ -15,11 +16,11 @@ export class TabsPage {
 
   async presentModal(prop) {
     const modal = await this.modalController.create({
-      component: ModalPage,
-      cssClass: 'my-custom-modal-class',
+      component: MymodalPage,
+      cssClass: "my-custom-modal-class",
       componentProps: {
-        ...prop
-      }
+        ...prop,
+      },
     });
     return await modal.present();
   }
@@ -32,15 +33,15 @@ export class TabsPage {
           text: "Create Task",
           icon: "bookmark-outline",
           handler: () => {
-            this.presentModal({title:"Task"});
+            this.presentModal({ title: 'Task' });
           },
         },
 
         {
-          text: "Favorite",
+          text: "Create Class",
           icon: "heart",
           handler: () => {
-            console.log("Favorite clicked");
+            this.presentModal({ title: 'Class' });
           },
         },
         {

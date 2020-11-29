@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
+import { MyCardComponent } from '../components/my-card/my-card.component';
+import { RbLetterAvatarModule } from 'rb-letter-avatar'; // <-- import the module
+
 
 @NgModule({
   imports: [
@@ -14,8 +17,9 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
     CommonModule,
     FormsModule,
     Tab2PageRoutingModule,
-    AntdModule
+    AntdModule,
+    RbLetterAvatarModule
   ],
-  declarations: [Tab2Page]
+  declarations: [Tab2Page,MyCardComponent]
 })
 export class Tab2PageModule {}

@@ -10,7 +10,6 @@ export class TaskService {
   constructor(private firestore: AngularFirestore) {}
 
   createTask(task: Task) {
-    task.id = this.firestore.createId();
     return this.firestore.collection(this.collectionName).add(task);
   }
 

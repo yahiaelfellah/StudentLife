@@ -19,6 +19,7 @@ import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    FormsModule, 
+    ReactiveFormsModule,
     NzIconModule,
     NgCircleProgressModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
