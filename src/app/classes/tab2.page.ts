@@ -2,7 +2,7 @@ import { ClassService } from "./../services/class.service";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { Class } from "../models/class.model";
 import { BehaviorSubject } from "rxjs";
-import * as moment from 'moment'
+import * as moment from "moment";
 
 @Component({
   selector: "app-tab2",
@@ -11,22 +11,24 @@ import * as moment from 'moment'
 })
 export class Tab2Page {
   public data: BehaviorSubject<Class[]>;
+  private userId: string = "";
   constructor(private classService: ClassService) {
     this.data = new BehaviorSubject<Class[]>([]);
   }
-  get classValue(){
+  get classValue() {
     return this.data.value;
   }
-  getTime(value){
+  getTime(value) {
     return moment(value).format("HH:mm");
   }
   ionViewWillEnter() {
+    this.userId = localStorage.getItem("userId");
     this.classService.getClasses().subscribe((value) => {
-      this.data.next(value);
+      this.data.next(value.filter((o) => o.userId === this.userId));
     });
   }
 
-  getInitials(value:string){
-    value.split(' ');
+  getInitials(value: string) {
+    value.split(" ");
   }
 }

@@ -1,16 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tasks
+    <ion-title style="text-align: center; font-weight: bold">
+      Tasks & Exams
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-no-border">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title style="text-align: center" size="large">
+        Tasks & Exams
+      </ion-title>
     </ion-toolbar>
   </ion-header>
-
+    <ion-row style="justify-content: center"><h5>Tasks</h5> </ion-row>
+    <my-card style="width: 100%"  [cardTitleTemplate]='cardTitle'  [cardImageTemplate]="cardImage" [cardContentTemplate]="cardContent" *ngFor="let task of tasksValue" [sliding]="true">
+      <ng-template #cardTitle>{{task.title}}</ng-template>
+      <ng-template #cardImage
+        ><ion-chip outline [color]="checkStatus(task.endTask).color">
+          <ion-label>{{checkStatus(task.endTask).label}}</ion-label>
+        </ion-chip></ng-template
+      >
+      <ng-template #cardContent>
+        <nz-descriptions nzBordered nzLayout="vertical" nzSize="middle">
+          <nz-descriptions-item nzTitle="Class"
+            >{{task.class}}</nz-descriptions-item
+          >
+          <nz-descriptions-item nzTitle="Deadline" [nzSpan]="2"
+            >{{formattedDate(task.endTask)}}</nz-descriptions-item
+          >
+          <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
+            {{task.description}}
+          </nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+            <nz-badge
+              nzStatus="processing"
+              nzText="Running"
+              [nzStandalone]="true"
+            ></nz-badge>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </ng-template>
+      <div class="sliding-options" style="display: flex;">
+        <ion-item-option color="warning">
+          <ion-icon slot="bottom" name="archive"></ion-icon>
+          Archive
+        </ion-item-option>
+        <ion-item-option color="danger">
+          <ion-icon slot="bottom" md="delete"></ion-icon>
+          More
+        </ion-item-option>
+      </div>
+    </my-card>
+    <ion-row style="justify-content: center"> <h5>Exams</h5> </ion-row>
+    <ion-row> </ion-row>
 </ion-content>

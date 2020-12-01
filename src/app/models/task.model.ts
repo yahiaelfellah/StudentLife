@@ -1,7 +1,9 @@
 export class Task {
-  name: string;
+  userId: string;
+  title: string;
   class: string;
   endTask: Date;
   isTaskEnded: boolean;
+  isExam : boolean;
   description: string;
 }

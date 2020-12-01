@@ -1,27 +1,28 @@
-import { Class } from './../models/class.model';
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Class } from "./../models/class.model";
+import { Injectable } from "@angular/core";
+import { AngularFirestore } from "@angular/fire/firestore";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ClassService {
   collectionName: string = "classes";
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) {}
   createClass(task: Class) {
+    task.userId = localStorage.getItem('userId');
     return this.firestore.collection(this.collectionName).add(task);
   }
 
-  getClasses(): Observable<Class[]>{
+  getClasses(): Observable<Class[]> {
     return this.firestore.collection<Class>(this.collectionName).valueChanges();
   }
   getClassebyId(id: string) {
     return this.firestore
-          .collection<Class>(this.collectionName)
-          .doc<Class>(id)
-          .valueChanges();
+      .collection<Class>(this.collectionName)
+      .doc<Class>(id)
+      .valueChanges();
   }
 
   deleteClass(id: string) {

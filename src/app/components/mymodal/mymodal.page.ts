@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
 import { ClassService } from "src/app/services/class.service";
+import { TaskService } from "src/app/services/task.service";
 
 @Component({
   selector: "app-mymodal",
@@ -15,9 +16,11 @@ export class MymodalPage implements OnInit {
   submitted = false;
   loading: false;
   days: string[];
+  taskForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private classService: ClassService,
+    private taskService : TaskService,
     public modalController: ModalController
   ) {
     this.title = "";
@@ -36,20 +39,41 @@ export class MymodalPage implements OnInit {
       title: ["", Validators.required],
       description: ["", Validators.required],
       startTime: ["", Validators.required],
+      startDate:["",Validators.required],
+      endDate:["",Validators.required],
       endTime: ["", Validators.required],
       day: ["", Validators.required],
     });
+    this.taskForm = this.formBuilder.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required],
+      class: ["", Validators.required],
+      endTask: ["", Validators.required],
+      status:[true],
+    });
   }
+
   get f() {
     return this.form.controls;
+  }
+  get _f(){
+    return this.taskForm.controls;
   }
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value);
     this.classService.createClass(this.form.value).then((e) => {
+      this.modalController.dismiss();
+    });
+  }
+  onTaskSubmit() {
+    this.submitted = true;
+    if (this.taskForm.invalid) {
+      return;
+    }
+    this.taskService.createTask(this.taskForm.value).then(() => {
       this.modalController.dismiss();
     });
   }

@@ -1,10 +1,12 @@
 import { Time } from "@angular/common";
 
 export class Class {
-    id?:string;
+    userId:string;
     title: string;
     startTime: Date;
     endTime:Date;
+    startDate : Date;
+    endDate: Date;
     description:string;
     platform:string;
     day:string;

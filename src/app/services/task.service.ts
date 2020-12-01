@@ -10,16 +10,18 @@ export class TaskService {
   constructor(private firestore: AngularFirestore) {}
 
   createTask(task: Task) {
+    task.userId = localStorage.getItem("userId");
     return this.firestore.collection(this.collectionName).add(task);
   }
 
+  getTaskById(id: string){
+    return this.firestore
+    .collection<Task>(this.collectionName)
+    .doc<Task>(id)
+    .valueChanges();
+  }
   getTasks(id?: string) {
-    return id
-      ? this.firestore.collection<Task>(this.collectionName).valueChanges()
-      : this.firestore
-          .collection<Task>(this.collectionName)
-          .doc<Task>(id)
-          .valueChanges();
+    return this.firestore.collection<Task>(this.collectionName).valueChanges();
   }
 
   deleteTask(id: string) {

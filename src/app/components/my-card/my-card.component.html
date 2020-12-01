@@ -1,5 +1,5 @@
 <div class="card-placeholder">
-  <ion-card button="true" (click)="this.toggleCard()">
+  <ion-card *ngIf="!sliding" button="true" (click)="this.toggleCard()">
     <ion-card-header>
       <ion-card-title>
         <ng-content select=".card-title"></ng-content>
@@ -13,4 +13,25 @@
       <ng-content select=".card-content"></ng-content>
     </ion-card-content>
   </ion-card>
+  <ion-item-sliding *ngIf="sliding" >
+    <ion-item lines="none">
+  <ion-card  button="true" style="width: 100%;" (click)="this.toggleCard()">
+    <ion-card-header>
+      <ion-card-title>
+        <ng-content *ngTemplateOutlet="cardTitleTemplate"></ng-content>
+      </ion-card-title>
+        <ng-content #image *ngTemplateOutlet="cardImageTemplate" style="margin-right: -24%;"></ng-content>
+      <ion-button fill="clear">
+        <!-- <ion-icon name="close" slot="icon-only" color="dark"></ion-icon> -->
+      </ion-button>
+    </ion-card-header>
+    <ion-card-content>
+      <ng-content *ngTemplateOutlet="cardContentTemplate"></ng-content>
+    </ion-card-content>
+  </ion-card>
+  </ion-item>
+  <ion-item-options>
+    <ng-content select=".sliding-options" style="display: flex;"></ng-content>
+  </ion-item-options>
+</ion-item-sliding>
 </div>

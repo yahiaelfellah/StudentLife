@@ -6,6 +6,7 @@ import {
   Renderer2,
   Input,
   ContentChild,
+  TemplateRef,
 } from "@angular/core";
 import {
   AnimationController,
@@ -26,11 +27,15 @@ export class MyCardComponent implements AfterViewInit {
   private state: "initial" | "transitioning" | "expanded" = "initial";
   public toggleTitleAnimation: Animation;
   public visibleWhenOpenAnimations: Animation;
+  @Input() public sliding : boolean = false;
   @ViewChild(IonCard, { read: ElementRef }) card: ElementRef;
   @ViewChild(IonCardTitle, { read: ElementRef }) titleElement: ElementRef;
   @ViewChild(IonButton, { read: ElementRef }) closeElement: ElementRef;
   @ViewChild(IonCardContent, { read: ElementRef }) contentElement: ElementRef;
   @ContentChild("image", { read: ElementRef }) imageElement: ElementRef;
+  @Input() public cardTitleTemplate: TemplateRef<any> = null;
+  @Input() public cardImageTemplate: TemplateRef<any> = null;
+  @Input() public cardContentTemplate: TemplateRef<any> = null;
 
   constructor(
     private animationCtrl: AnimationController,

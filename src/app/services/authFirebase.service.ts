@@ -21,7 +21,9 @@ export class AuthFirebaseService {
 
 
   async login(username, password) {
-    return this.afAuth.signInWithEmailAndPassword(username, password);
+    return this.afAuth.signInWithEmailAndPassword(username, password).then((user) => {
+      localStorage.setItem("userId",user.user.uid);
+    });
   }
 
   googleLogin() {
@@ -58,6 +60,7 @@ export class AuthFirebaseService {
 
   async logout() {
     await this.afAuth.signOut().then(() => {
+        localStorage.clear();
         this.router.navigate(['/login']);
     });
   }

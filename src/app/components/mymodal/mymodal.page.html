@@ -1,10 +1,15 @@
-<ion-header [translucent]="true" class="ion-no-border">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="text-align: center"> {{title}} </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">
+        <ion-icon name="chevron-back-outline"></ion-icon
+      ></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-title> Create New {{title}} </ion-title>
   <div *ngIf="title.toLowerCase()==='class'" id="modal-content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-item>
@@ -41,7 +46,7 @@
         </div>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Starts At</ion-label>
+        <ion-label position="floating">Starts at</ion-label>
         <ion-datetime
           type="text"
           formControlName="startTime"
@@ -58,7 +63,7 @@
         </div>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Ends At</ion-label>
+        <ion-label position="floating">Ends at</ion-label>
         <ion-datetime
           type="text"
           formControlName="endTime"
@@ -74,6 +79,44 @@
           <div *ngIf="f.endTime.errors.required">endTime is required</div>
         </div>
       </ion-item>
+      <div style="display: flex; flex-direction: row">
+        <ion-item>
+          <ion-label position="floating">Start Date</ion-label>
+          <ion-datetime
+            displayFormat="MM/DD/YYYY"
+            formControlName="startDate"
+            max="2050"
+            [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }"
+            class="form-controll"
+          ></ion-datetime>
+
+          <div
+            *ngIf="submitted && f.startDate.errors"
+            class="invalid-feedback pullUp"
+          >
+            <div *ngIf="f.startDate.errors.required">startDate is required</div>
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">End Date</ion-label>
+          <ion-datetime
+            displayFormat="MM/DD/YYYY"
+            formControlName="endDate"
+            max="2050"
+
+            [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }"
+            class="form-controll"
+          ></ion-datetime>
+
+          <div
+            *ngIf="submitted && f.endDate.errors"
+            class="invalid-feedback pullUp"
+          >
+            <div *ngIf="f.endDate.errors.required">endDate is required</div>
+          </div>
+        </ion-item>
+      </div>
+
       <ion-item>
         <ion-label position="floating">Description</ion-label>
         <ion-textarea
@@ -91,6 +134,7 @@
           </div>
         </div>
       </ion-item>
+
       <div class="buttons">
         <button
           [disabled]="loading"
@@ -99,6 +143,7 @@
           [nzSize]="'large'"
           [nzLoading]="loading"
           nzShape="round"
+          nzBlock
         >
           <span
             *ngIf="loading"
@@ -106,11 +151,96 @@
           ></span>
           Save
         </button>
-        <ion-button color="danger" fill="clear" (click)="cancel()"
-          >Cancel</ion-button
-        >
       </div>
     </form>
   </div>
-  <div *ngIf="title.toLowerCase()==='task'"></div>
+  <div *ngIf="title.toLowerCase()==='task'" id="modal-content">
+    <form [formGroup]="taskForm" (ngSubmit)="onTaskSubmit()">
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input
+          type="text"
+          formControlName="title"
+          class="form-controll"
+          [ngClass]="{ 'is-invalid': submitted && _f.title.errors }"
+        ></ion-input>
+        <div
+          *ngIf="submitted && _f.title.errors"
+          class="invalid-feedback pullUp"
+        >
+          <div *ngIf="_f.title.errors.required">Title is required</div>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Class</ion-label>
+        <ion-select
+          formControlName="class"
+          class="form-controll"
+          [ngClass]="{ 'is-invalid': submitted && _f.class.errors }"
+        >
+          <div *ngFor="let class of days">
+            <ion-select-option [value]="class"> {{class}}</ion-select-option>
+          </div>
+        </ion-select>
+        <div
+          *ngIf="submitted && _f.class.errors"
+          class="invalid-feedback pullUp"
+        >
+          <div *ngIf="_f.class.errors.required">Class is required</div>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Deadline</ion-label>
+        <ion-datetime
+          displayFormat="MM/DD/YYYY"
+          formControlName="endTask"
+          max="2050"
+          [ngClass]="{ 'is-invalid': submitted && _f.endTask.errors }"
+          class="form-controll"
+        ></ion-datetime>
+
+        <div
+          *ngIf="submitted && _f.endTask.errors"
+          class="invalid-feedback pullUp"
+        >
+          <div *ngIf="_f.endTask.errors.required">EndTask is required</div>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea
+          type="text"
+          formControlName="description"
+          class="form-controll"
+          [ngClass]="{ 'is-invalid': submitted && _f.description.errors }"
+        ></ion-textarea>
+        <div
+          *ngIf="submitted && _f.description.errors"
+          class="invalid-feedback pullUp"
+        >
+          <div *ngIf="_f.description.errors.required">
+            description is required
+          </div>
+        </div>
+      </ion-item>
+
+      <div class="buttons">
+        <button
+          [disabled]="loading"
+          nz-button
+          nzType="primary"
+          [nzSize]="'large'"
+          [nzLoading]="loading"
+          nzShape="round"
+          nzBlock
+        >
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </ion-content>
