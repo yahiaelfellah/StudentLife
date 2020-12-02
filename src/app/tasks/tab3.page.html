@@ -14,9 +14,26 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-    <ion-row style="justify-content: center"><h5>Tasks</h5> </ion-row>
+  <ion-row style="display: flex;justify-content: center;">
+    <img style="width: 80%;" src = "../../assets/images/tasks.gif">
+
+  </ion-row>
+    <ion-row >
+      <ion-chip *ngIf="searchItem === 'started'" color="primary">
+        <ion-label  (click)='changeFilter("started")'>In Progress</ion-label>
+      </ion-chip>
+      <ion-chip  *ngIf="searchItem === 'created'" color="danger">
+        <ion-label (click)='changeFilter("created")'>To Do</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="searchItem === 'done'" color="success">
+        <ion-label (click)='changeFilter("done")'>Done</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="searchItem !== ''">
+        <ion-label (click)='close()'>Clear</ion-label>
+      </ion-chip>
+    </ion-row>
     <my-card style="width: 100%"  [cardTitleTemplate]='cardTitle'  [cardImageTemplate]="cardImage" [cardContentTemplate]="cardContent" *ngFor="let task of tasksValue" [sliding]="true">
-      <ng-template #cardTitle>{{task.title}}</ng-template>
+      <ng-template #cardTitle><h6>{{task.title}}</h6></ng-template>
       <ng-template #cardImage
         ><ion-chip outline [color]="checkStatus(task.endTask).color">
           <ion-label>{{checkStatus(task.endTask).label}}</ion-label>
@@ -43,13 +60,11 @@
         </nz-descriptions>
       </ng-template>
       <div class="sliding-options" style="display: flex;">
-        <ion-item-option color="warning">
-          <ion-icon slot="bottom" name="archive"></ion-icon>
-          Archive
-        </ion-item-option>
-        <ion-item-option color="danger">
-          <ion-icon slot="bottom" md="delete"></ion-icon>
-          More
+        <ion-item-option color="#27ae60">
+          <ion-icon  style="font-size: 1.5rem;" color="success" name="checkmark-done-circle" (click)="sliddingEdit(task.id,task,'done')"></ion-icon>
+                </ion-item-option>
+        <ion-item-option color="#27ae60">
+          <ion-icon  style="font-size: 1.5rem;" color="primary" name="star" (click)="sliddingEdit(task.id,task,'started')"></ion-icon>
         </ion-item-option>
       </div>
     </my-card>

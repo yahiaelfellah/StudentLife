@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
+import { map } from "rxjs/operators";
 import { Task } from "../models/task.model";
 
 @Injectable({
@@ -20,8 +21,14 @@ export class TaskService {
     .doc<Task>(id)
     .valueChanges();
   }
-  getTasks(id?: string) {
-    return this.firestore.collection<Task>(this.collectionName).valueChanges();
+  getTasks() {
+    return this.firestore.collection<Task>(this.collectionName).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Task;
+        data.id = a.payload.doc.id;
+        return data;
+      }))
+    );;
   }
 
   deleteTask(id: string) {
@@ -31,6 +38,7 @@ export class TaskService {
       .delete();
   }
   editTask(id: string, taskUpdate: Task): Promise<void> {
+    delete taskUpdate.id;
     return this.firestore
       .collection<Task>(this.collectionName)
       .doc<Task>(id)

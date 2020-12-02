@@ -11,12 +11,13 @@ import * as moment from "moment";
 })
 export class Tab2Page {
   public data: BehaviorSubject<Class[]>;
+  public searchTerm : string ="";
   private userId: string = "";
   constructor(private classService: ClassService) {
     this.data = new BehaviorSubject<Class[]>([]);
   }
   get classValue() {
-    return this.data.value;
+    return this.filterItems(this.searchTerm);
   }
   getTime(value) {
     return moment(value).format("HH:mm");
@@ -31,4 +32,12 @@ export class Tab2Page {
   getInitials(value: string) {
     value.split(" ");
   }
+
+  filterItems(searchTerm){
+    return this.data.value.filter((item) => {
+         return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+     });  
+
+ }
+  
 }

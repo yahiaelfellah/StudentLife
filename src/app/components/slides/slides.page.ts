@@ -19,7 +19,7 @@ export class SlidesPage {
 
   }
   slideOpts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400
   };
   finish(){

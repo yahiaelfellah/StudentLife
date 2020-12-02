@@ -24,12 +24,14 @@ export class AuthenticationService {
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
       if (user) {
+        this.userService.getUserById(user.uid).subscribe(value => {
+            this.userService.user.next(value);
+  
+          })
         this.userData = user;
         localStorage.setItem("user", JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem("user"));
       } else {
         localStorage.setItem("user", null);
-        JSON.parse(localStorage.getItem("user"));
       }
     });
   }
@@ -91,7 +93,7 @@ export class AuthenticationService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(["dashboard"]);
+          this.router.navigate(["home"]);
         });
         this.SetUserData(result.user);
       })

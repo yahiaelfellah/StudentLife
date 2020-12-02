@@ -41,3 +41,22 @@ ion-header {
     color: grey;
   }
 }
+ion-card {
+  border-radius: 10px;
+  box-shadow: 0 0 black;
+  border: .01rem solid #ecf0f1;
+  width: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+ion-row{
+  width: 100%;
+}
+#tasks-row {
+  margin-bottom:30%;
+}
+
+ion-fab-button{
+  --box-shadow: 0 0 black;
+  border: .01rem solid #ecf0f1;
+}

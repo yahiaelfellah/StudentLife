@@ -49,7 +49,7 @@ export class MymodalPage implements OnInit {
       description: ["", Validators.required],
       class: ["", Validators.required],
       endTask: ["", Validators.required],
-      status:[true],
+      status:["created"],
     });
   }
 

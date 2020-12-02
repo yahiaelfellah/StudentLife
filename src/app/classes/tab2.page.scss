@@ -6,3 +6,11 @@ ion-header {
       }
     }
   }
+  ion-searchbar{
+    --border-radius: 25px;
+    opacity: 60%;
+    width: 88%;
+  }
+  #search-bar {
+    justify-content: center;
+  }

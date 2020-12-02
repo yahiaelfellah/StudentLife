@@ -2,7 +2,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { Injectable } from "@angular/core";
 import { _User } from "../models/user.model";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -10,11 +10,11 @@ import { BehaviorSubject } from "rxjs";
 export class UserService {
   private collectionName = "users"
   public user:BehaviorSubject<_User> = new BehaviorSubject<_User>(null);
-
+  public userObservable: Observable<_User>;
   constructor(
     private firestore: AngularFirestore,
   ) {
-
+     this.userObservable = this.user.asObservable();
   }
   get _user(){
     return this.user.value;

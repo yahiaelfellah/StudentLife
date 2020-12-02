@@ -10,6 +10,10 @@
       <ion-title style="text-align: center" size="large"> Classes </ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-row id="search-bar">
+    <ion-searchbar [(ngModel)]="searchTerm" ></ion-searchbar>
+
+  </ion-row>
     <my-card *ngFor="let class of classValue">
       <span class="card-title">{{class.title}}</span>
       <span class="card-image">
@@ -17,7 +21,7 @@
       </span>
       <span class="card-content">
         <div>
-          <nz-descriptions nzBordered nzLayout="vertical" nzSize="middle">
+          <nz-descriptions nzLayout="vertical" nzSize="middle">
             <nz-descriptions-item nzTitle="Day">{{class.day}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Start Time"[nzSpan]="2">{{getTime(class.startTime)}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="End Time" [nzSpan]="2">{{getTime(class.endTime)}}</nz-descriptions-item>
