@@ -8,6 +8,8 @@ import { HomePage } from "./home.page";
 
 import { HomePageRoutingModule } from "./home-routing.module";
 import { NgCircleProgressModule } from "ng-circle-progress";
+import { AvatarModule } from 'ngx-avatar';
+
 
 @NgModule({
   imports: [
@@ -19,6 +21,8 @@ import { NgCircleProgressModule } from "ng-circle-progress";
     NgCircleProgressModule.forRoot({
       startFromZero: false,
     }),
+    AvatarModule
+
   ],
   declarations: [HomePage, TimePipe],
 })

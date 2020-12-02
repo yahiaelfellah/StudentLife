@@ -32,11 +32,11 @@
                     flex-direction: row;
                     justify-content: space-between;
                     align-items: baseline;">
-                        <button [disabled]="loading" nz-button nzType="primary" [nzSize]="'large'" [nzLoading]="loading" nzShape="round">
+                        <button [disabled]="loading" nzBlock nz-button nzType="primary" [nzSize]="'large'" [nzLoading]="loading" nzShape="round">
                             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                             Login
                         </button>
-                        <a routerLink="/register" class="btn btn-link">Register</a>
+                        <a routerLink="/sign-up" class="btn btn-link">Register</a>
                     </div>
                 </form>
                 <ion-item-divider></ion-item-divider>
@@ -45,7 +45,7 @@
                         <img src="assets/icon/facebook.png" style="margin-right: 1%;"/>
                         Connect with Facebook
                     </button>
-                    <button [disabled]="loading" nz-button nzType="default" nzShape="round" (click)="afService.googleLogin()">
+                    <button [disabled]="loading" nz-button nzType="default" nzShape="round" (click)="onGoolgeLogin()">
                         <img src="assets/icon/google.png" style="margin-right: 1%;"/>
                         Connect with Google
                     </button>

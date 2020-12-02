@@ -11,6 +11,8 @@ import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthFirebaseService {
+  
+  public user = new BehaviorSubject<firebase.default.User>(null);
   constructor(
     private afAuth: AngularFireAuth,
     private gplus: GooglePlus,
@@ -18,13 +20,22 @@ export class AuthFirebaseService {
     private router: Router,
   ) {}
 
-
+    get userData(){
+      return this.user.value;
+    }
 
   async login(username, password) {
     return this.afAuth.signInWithEmailAndPassword(username, password).then((user) => {
       localStorage.setItem("userId",user.user.uid);
+      localStorage.setItem("user",JSON.stringify(user.user));
+      this.user.next(user.user);
     });
   }
+
+    // Register user with email/password
+    RegisterUser(email, password) {
+      return this.afAuth.createUserWithEmailAndPassword(email, password);
+    }
 
   googleLogin() {
     if (this.platform.is("capacitor") || this.platform.is("cordova")) {

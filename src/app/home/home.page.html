@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" >
   <ion-header collapse="condense" class="ion-no-border">
     <ion-toolbar>
       <ion-title style="text-align: center" size="large">Home</ion-title>
@@ -23,10 +23,14 @@
     >
     </ion-refresher-content>
   </ion-refresher>
-
+  <ion-row id="account">
+    <ngx-avatar [name]="_user.displayName" size=80></ngx-avatar>
+    <h5>{{_user.displayName}}</h5>
+  </ion-row>
   <ion-grid>
-    <ion-row>
-      <h5>Today - {{date}}</h5>
+    <ion-row id="task">
+      <h5>My Day</h5>
+      <p>Today - {{date}}</p>
     </ion-row>
     <ion-row>
       <nz-card style="width: 21rem">

@@ -9,4 +9,19 @@ ion-content {
       margin-bottom: 5%;
     }
   }
+
   
+  .container {
+    width: 100%;
+    height: 100%;  
+    animation:changeBackgroundColor 1s ease 0s 1 normal forwards;
+  }
+  
+  @keyframes changeBackgroundColor {
+    0% {
+      background-color: #ffffff;
+    }
+    100% {
+      background-color: #000;
+    }
+  }

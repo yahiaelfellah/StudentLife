@@ -9,6 +9,7 @@ import { Tab2Page } from './tab2.page';
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { MyCardComponent } from '../components/my-card/my-card.component';
 import { RbLetterAvatarModule } from 'rb-letter-avatar'; // <-- import the module
+import { AvatarModule } from 'ngx-avatar';
 
 
 @NgModule({
@@ -18,7 +19,9 @@ import { RbLetterAvatarModule } from 'rb-letter-avatar'; // <-- import the modul
     FormsModule,
     Tab2PageRoutingModule,
     AntdModule,
-    RbLetterAvatarModule
+    RbLetterAvatarModule,
+    AvatarModule
+
   ],
   declarations: [Tab2Page,MyCardComponent]
 })

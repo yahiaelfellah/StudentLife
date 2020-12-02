@@ -8,11 +8,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content >
   <ion-title> Create New {{title}} </ion-title>
   <div *ngIf="title.toLowerCase()==='class'" id="modal-content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-item>
+      <ion-item id=title>
         <ion-label position="floating">Title</ion-label>
         <ion-input
           type="text"
@@ -244,3 +244,4 @@
     </form>
   </div>
 </ion-content>
+

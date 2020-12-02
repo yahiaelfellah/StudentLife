@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-slides pager="true" [options]="slideOpts" #mySlider>
+    <ion-slide >
+      <h2 class="bigEntrance">Welcome</h2>
+      <p class="bigEntrance" >to <b>Student Life </b> app</p>
+    </ion-slide>
+    <ion-slide>
+    <div style="margin-bottom: 2%;">
+      <h4 class="bigEntrance">What's you displaying name?</h4>
+      <ion-item>
+        <ion-input clearInput placeholder='Display name' [(ngModel)]="displyName"></ion-input>
+      </ion-item>
+    </div>
+      <div *ngIf="displyName" class="pullUp">
+        <ion-button fill="clear" (click)="swipeNext()">Continue </ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <ngx-avatar [name]="displyName" size=200 [round]="true"></ngx-avatar>
+      <h4 style="margin-top: 10%;" class="bigEntrance">Also you can <br> uplaod your pic</h4>
+      <div  class="pullUp">
+        <ion-button fill="clear" (click)="finish()">Finish </ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

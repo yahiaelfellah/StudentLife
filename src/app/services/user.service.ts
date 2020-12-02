@@ -1,30 +1,36 @@
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase,AngularFireList, AngularFireObject} from "@angular/fire/database";
+import { _User } from "../models/user.model";
+import { AngularFirestore } from "@angular/fire/firestore";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  userId: string;
+  private collectionName = "users"
+  public user:BehaviorSubject<_User> = new BehaviorSubject<_User>(null);
+
   constructor(
-    private db: AngularFireDatabase,
-    private afAuth: AngularFireAuth
+    private firestore: AngularFirestore,
   ) {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
+
+  }
+  get _user(){
+    return this.user.value;
+  }
+  createUser(user: _User) {
+    return this.firestore.collection(this.collectionName).add(user);
   }
 
-  // Get all rehistered data for the user 
-  getDataForUser() {
-    if(this.userId){
-      return this.db.list(`classes/${this.userId}`);
-    }else {
-      return [];
-    }
+  getUserById(id:string){
+    return this.firestore.collection<_User>(this.collectionName).doc<_User>(id).valueChanges();
+  }
+  editUser(id:any,user: any){
+      return this.firestore
+        .collection<_User>(this.collectionName)
+        .doc<_User>(id)
+        .update(user);
   }
 
   // Create new class

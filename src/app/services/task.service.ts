@@ -10,7 +10,7 @@ export class TaskService {
   constructor(private firestore: AngularFirestore) {}
 
   createTask(task: Task) {
-    task.userId = localStorage.getItem("userId");
+    task.userId = JSON.parse(localStorage.getItem("user")).uid;
     return this.firestore.collection(this.collectionName).add(task);
   }
 

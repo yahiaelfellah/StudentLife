@@ -7,3 +7,11 @@ export class User {
     lastName?: string;
     token?: string;
 }
+
+export interface _User {
+    uid: string;
+    email: string;
+    displayName: string;
+    photoURL: string;
+    emailVerified: boolean;
+ }

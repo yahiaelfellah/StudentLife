@@ -28,9 +28,9 @@ export class Tab3Page {
     return moment(value).format("dddd, MMMM Do YYYY, h:mm:ss a");
   }
   ionViewWillEnter() {
-    this.userId = localStorage.getItem("userId");
+    const user = JSON.parse(localStorage.getItem("user"));
     this.taskService.getTasks().subscribe((value) => {
-      this.data.next(value.filter((o) => o.userId === this.userId));
+      this.data.next(value.filter((o) => o.userId === user.uid ));
     });
   }
 }

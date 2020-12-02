@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { LoadingController } from "@ionic/angular";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-login",
@@ -24,11 +25,11 @@ export class LoginPage implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     public loadingController: LoadingController,
-    public afService: AuthFirebaseService
+    public afService: AuthFirebaseService,
+    private userService : UserService
+
   ) {
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
-    }
+
   }
 
   ngOnInit(): void {
@@ -55,12 +56,31 @@ export class LoginPage implements OnInit {
       message: "Please wait...",
     });
     await loading.present();
-    this.afService
-      .login(this.f.username.value, this.f.password.value)
-      .then((success) => {
+    this.authenticationService.SignIn(this.f.username.value, this.f.password.value).then(
+      (success) => {
         loading.dismiss();
         this.loading = false;
-        this.router.navigate(['home']);
-      });
+        this.userService.getUserById(success.user.uid).subscribe(value => {
+          this.userService.user.next(value);
+          this.router.navigate(['home']);
+
+        })
+
+      }
+    )
+
+  }
+  async onGoolgeLogin(){
+    this.loading = true;
+    const loading = await this.loadingController.create({
+      cssClass: "custom-laoding",
+      message: "Please wait...",
+    });
+    this.authenticationService.GoogleAuth().then((success) => {
+      loading.dismiss();
+      this.loading = false;
+      this.router.navigate(['home']);
+    })
   }
 }
+

@@ -20,3 +20,24 @@ ion-header {
 .ant-card > .ant-card-head-title {
     text-align: center;
 }
+
+#account{
+  display :flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5%;
+  h5 {
+    margin-top: 2%;
+  }
+}
+
+#task {
+  display :flex;
+  flex-direction: column;
+  width: 86%;
+  p {
+    font-size: .8rem;
+    font-style: italic;
+    color: grey;
+  }
+}

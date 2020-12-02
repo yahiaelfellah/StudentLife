@@ -22,9 +22,9 @@ export class Tab2Page {
     return moment(value).format("HH:mm");
   }
   ionViewWillEnter() {
-    this.userId = localStorage.getItem("userId");
+    const user = JSON.parse(localStorage.getItem("user"));
     this.classService.getClasses().subscribe((value) => {
-      this.data.next(value.filter((o) => o.userId === this.userId));
+      this.data.next(value.filter((o) => o.userId === user.uid));
     });
   }
 

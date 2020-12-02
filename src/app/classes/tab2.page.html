@@ -13,7 +13,7 @@
     <my-card *ngFor="let class of classValue">
       <span class="card-title">{{class.title}}</span>
       <span class="card-image">
-        <rb-letter-avatar [avatar-data]='class.title' ></rb-letter-avatar>
+        <ngx-avatar [name]="class.title"></ngx-avatar>
       </span>
       <span class="card-content">
         <div>

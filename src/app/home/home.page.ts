@@ -1,48 +1,70 @@
-import { TaskService } from './../services/task.service';
-import { AuthFirebaseService } from '../services/authFirebase.service';
-import { Component, OnInit } from '@angular/core';
-import { timer, BehaviorSubject } from 'rxjs';
-import { scan, takeWhile } from 'rxjs/operators';
+import { UserService } from 'src/app/services/user.service';
+import { TaskService } from "./../services/task.service";
+import { AuthFirebaseService } from "../services/authFirebase.service";
+import { Component, OnInit } from "@angular/core";
+import { timer, BehaviorSubject } from "rxjs";
+import { scan, takeWhile } from "rxjs/operators";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { _User } from "../models/user.model";
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
-  totlaDuration : number = 120;
-  percentage : BehaviorSubject<number>;
-  remainingTime$ = timer(0,60000).pipe(
-    scan(acc => --acc,60),
-    takeWhile(x => x >= 0)
-    );
-  
-  get date(){
+  public _user: _User;
+  totlaDuration: number = 120;
+  percentage: BehaviorSubject<number>;
+  remainingTime$ = timer(0, 60000).pipe(
+    scan((acc) => --acc, 60),
+    takeWhile((x) => x >= 0)
+  );
+
+  get date() {
     return new Date().toDateString();
   }
-  async precentage(){
-    const time = await this.remainingTime$.toPromise()
-    return time/this.totlaDuration ;
+
+  async precentage() {
+    const time = await this.remainingTime$.toPromise();
+    return time / this.totlaDuration;
   }
-  getTimeRemaining(endtime){
+
+
+  getTimeRemaining(endtime) {
     console.log(Date.parse(endtime));
     const timestamp = new Date().getTime();
     const total = Date.parse(endtime) - timestamp;
-    const seconds = Math.floor( (total/1000) % 60 );
-    const minutes = Math.floor( (total/1000/60) % 60 );
-    const hours = Math.floor( (total/(1000*60*60)) % 24 );
-    const days = Math.floor( total/(1000*60*60*24) );
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
     return {
       total,
       days,
       hours,
       minutes,
-      seconds
+      seconds,
     };
   }
-  constructor(public  authService: AuthFirebaseService, private taskService : TaskService) {
+  constructor(
+    public authService: AuthFirebaseService,
+    public userServce : UserService,
+    private router : Router,
+  ) {
+
+    this._user = this.userServce._user;
+
   }
   ngOnInit(): void {
+    if(!this._user){
+      this.authService.logout()
+    }
+  }
+
+  ionViewWillEnter() {
+
   }
 
 }

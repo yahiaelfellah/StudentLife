@@ -18,11 +18,27 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+
   },
   {
     path: 'mymodal',
-    loadChildren: () => import('./components/mymodal/mymodal.module').then( m => m.MymodalPageModule)
+    loadChildren: () => import('./components/mymodal/mymodal.module').then( m => m.MymodalPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+
+  },
+  {
+    path: 'slides',
+    loadChildren: () => import('./components/slides/slides.module').then( m => m.SlidesPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+
   }
 ];
 @NgModule({
