@@ -193,7 +193,7 @@
         <ion-label position="floating">Deadline</ion-label>
         <ion-datetime
           displayFormat="MM/DD/YYYY"
-          formControlName="endTask"
+          formControlName="endTask",
           max="2050"
           [ngClass]="{ 'is-invalid': submitted && _f.endTask.errors }"
           class="form-controll"
@@ -223,7 +223,12 @@
           </div>
         </div>
       </ion-item>
-
+      <ion-item lines="none">
+        <ion-label>Exam?</ion-label>
+        <ion-checkbox slot="start" 
+        formControlName="description"
+        class="form-controll"></ion-checkbox>
+      </ion-item>
       <div class="buttons">
         <button
           [disabled]="loading"

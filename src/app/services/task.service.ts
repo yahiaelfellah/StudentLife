@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
@@ -8,6 +9,8 @@ import { Task } from "../models/task.model";
 })
 export class TaskService {
   private collectionName: string = "tasks";
+  public newTask : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public _newTask = this.newTask.asObservable();
   constructor(private firestore: AngularFirestore) {}
 
   createTask(task: Task) {
@@ -28,7 +31,7 @@ export class TaskService {
         data.id = a.payload.doc.id;
         return data;
       }))
-    );;
+    );
   }
 
   deleteTask(id: string) {

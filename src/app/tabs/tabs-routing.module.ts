@@ -18,7 +18,10 @@ const routes: Routes = [
       {
         path: 'task',
         loadChildren: () => import('../tasks/tab3.module').then(m => m.Tab3PageModule),
-        
+      },
+      {
+        path:"profile",
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule),
       },
       {
         path: '',

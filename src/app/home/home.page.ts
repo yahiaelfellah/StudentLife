@@ -4,7 +4,7 @@ import { AuthenticationService } from "./../services/authentication.service";
 import { UserService } from "src/app/services/user.service";
 import { TaskService } from "./../services/task.service";
 import { AuthFirebaseService } from "../services/authFirebase.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { timer, BehaviorSubject, Observable } from "rxjs";
 import { delayWhen, scan, takeWhile } from "rxjs/operators";
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -13,6 +13,7 @@ import { NavigationExtras, Router } from "@angular/router";
 import { Class } from "../models/class.model";
 import * as moment from "moment";
 import { Task } from "../models/task.model";
+import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
 
 @Component({
   selector: "app-home",
@@ -23,13 +24,12 @@ export class HomePage implements OnInit {
   public _user: _User;
   private classes: BehaviorSubject<Class[]>;
   private _tasks: BehaviorSubject<Task[]>;
+  private $tasks: Task[] = [];
+  private _clas: Class[] = [];
   public tasks: any[];
   totlaDuration: number = 120;
   percentage: BehaviorSubject<number>;
-  remainingTime$ = timer(0, 60000).pipe(
-    scan((acc) => --acc, 60),
-    takeWhile((x) => x >= 0)
-  );
+  remainingTime$: Observable<number>;
 
   constructor(
     public authService: AuthenticationService,
@@ -37,10 +37,12 @@ export class HomePage implements OnInit {
     public ngFireAuth: AngularFireAuth,
     public classService: ClassService,
     public taskService: TaskService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public ngZone: NgZone // private localNotifications: LocalNotifications
   ) {
-    this.classes = new BehaviorSubject<Class[]>([]);
-    this._tasks = new BehaviorSubject<Task[]>([]);
+    this.classes = new BehaviorSubject<Class[]>(this._clas);
+    this._tasks = new BehaviorSubject<Task[]>(this.tasks);
+
     this.tasks = [
       {
         title: "To Do",
@@ -65,6 +67,15 @@ export class HomePage implements OnInit {
       },
     ];
   }
+  // single_notification() {
+  //   // Schedule a single notification
+  //   this.localNotifications.schedule({
+  //     id: 1,
+  //     text: 'Single ILocalNotification',
+  //     sound: 'file://sound.mp3',
+  //     data: { secret: 'key_data' }
+  //   });
+  // }
 
   get _classes() {
     return this.classes.value.sort((a, b) =>
@@ -74,46 +85,68 @@ export class HomePage implements OnInit {
         : -1
     );
   }
-
-  get taskInfo() {
-    if (this._tasks.value) {
-      return {
-        doneTasks: this._tasks.value.filter((o) => o.status === "done").length,
-        startedTasks: this._tasks.value.filter((o) => o.status === "started")
-          .length,
-        creadtedTasks: this._tasks.value.filter((o) => o.status === "created")
-          .length,
-      };
-    }
-    return {
-      doneTasks: 0,
-      startedTasks: 0,
-      creadtedTasks: 0,
-    };
+  get _classOnGoing() {
+    return this._classes.length
+      ? this._classes.filter(
+          (o) => this.calculateRemainingTime(o.endTime) > 0
+        )[0]
+      : null;
   }
+  get doneTasks() {
+    return this._tasks.value
+      ? this._tasks.value.filter((o) => o.status === "done").length
+      : 0;
+  }
+  get startedTasks() {
+    return this._tasks.value
+      ? this._tasks.value.filter((o) => o.status === "started").length
+      : 0;
+  }
+  get createdTasks() {
+    return this._tasks.value
+      ? this._tasks.value.filter((o) => o.status === "created").length
+      : 0;
+  }
+
   get date() {
     return new Date().toDateString();
   }
   ngOnInit(): void {
-    this._user = this.userService._user;
-    if (!this._user) {
-      this.ionViewWillEnter();
-    }
+    setTimeout(() => {
+      this.ngZone.run(() => {
+        this._user = this.userService._user;
+        this.classService.getClasses().subscribe((value) => {
+          this.classes.next(
+            value.filter(
+              (o) =>
+                o.day === moment().format("dddd") && o.userId === this._user.uid
+            )
+          );
+          this.remainingTime$ = this.getRemainingTime();
+        });
+        this.taskService.getTasks().subscribe((value) => {
+          this._tasks.next(value.filter((o) => o.userId === this._user.uid));
+        });
+      });
+    }, 500);
   }
 
   ionViewWillEnter() {
     setTimeout(() => {
-      this._user = this.userService._user;
-      this.classService.getClasses().subscribe((value) => {
-        this.classes.next(
-          value.filter(
-            (o) =>
-              o.day === moment().format("dddd") && o.userId === this._user.uid
-          )
-        );
-      });
-      this.taskService.getTasks().subscribe((value) => {
-        this._tasks.next(value.filter((o) => o.userId === this._user.uid));
+      this.ngZone.runOutsideAngular(() => {
+        this._user = this.userService._user;
+        this.classService.getClasses().subscribe((value) => {
+          this.classes.next(
+            value.filter(
+              (o) =>
+                o.day === moment().format("dddd") && o.userId === this._user.uid
+            )
+          );
+          this.remainingTime$ = this.getRemainingTime();
+        });
+        this.taskService.getTasks().subscribe((value) => {
+          this._tasks.next(value.filter((o) => o.userId === this._user.uid));
+        });
       });
     }, 500);
   }
@@ -124,12 +157,10 @@ export class HomePage implements OnInit {
   private calculateRemainingTime(end) {
     return moment(end).diff(moment(), "minutes");
   }
-  get getRemainingTime(): Observable<number> {
+  getRemainingTime(): Observable<number> {
+    const time = this._classes ? this._classes[0].endTime : 0;
     return timer(0, 60000).pipe(
-      scan(
-        (acc) => --acc,
-        this.calculateRemainingTime(this._classes[0].endTime)
-      ),
+      scan((acc) => --acc, this.calculateRemainingTime(time)),
       takeWhile((x) => x >= 0)
     );
   }
@@ -154,6 +185,6 @@ export class HomePage implements OnInit {
         navigationExtras.queryParams.searchItem = "done";
         break;
     }
-    this.navCtrl.navigateForward(["/task"],navigationExtras);
+    this.navCtrl.navigateForward(["/task"], navigationExtras);
   }
 }

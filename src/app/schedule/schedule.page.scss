@@ -1,0 +1,51 @@
+
+ion-header {
+    z-index: 0;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.day-week {
+    text-align: center;
+
+    .day-name {
+    }
+
+    .day {
+        font-weight: 600;
+    }
+}
+.month {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.day-san {
+}
+
+.item-calendar {
+    padding: 8px 24px 8px 24px;
+    border-radius: 30px;
+    margin-left: 20%;
+    margin-right: -20%;
+}
+
+.hours {
+    text-align: center;
+    position: absolute;
+    p {
+        font-size: 12px;
+    }
+}
+
+.item-title {
+    font-weight: 600;
+}
+
+.item-description{
+    font-size: 14px;
+    color: #4d4d52;
+}

@@ -23,6 +23,11 @@
     >
     </ion-refresher-content>
   </ion-refresher>
+  <div id="loading" *ngIf="!_user">
+    <ion-spinner name="crescent"></ion-spinner>
+    loading...
+  </div>
+  <div  *ngIf="_user">
   <ion-row id="account">
     <ngx-avatar [name]="_user?.displayName" size=80></ngx-avatar>
     <h5>{{_user?.displayName}}</h5>
@@ -32,27 +37,32 @@
       <h5>My Day</h5>
       <p>Today - {{date}}</p>
     </ion-row>
-    <ion-row *ngIf="_classes.length">
-
-      <ion-card>
+    <ion-row >
+      <ion-card *ngIf="!_classOnGoing">
+        <ion-card-content style="display: flex; align-items: center; flex-direction: column;">
+          <img style="width: 40%;"src="../../assets/images/empty_box.png">
+          <p>All classes has ended for Today</p>
+        </ion-card-content>
+      </ion-card>
+      <ion-card *ngIf="_classOnGoing">
         <ion-card-content style="display: flex; align-items: center;">
             <circle-progress
               [radius]="40"
-              [percent]="getRemainingTime|async"
+              [percent]="remainingTime$|async"
               units="Mins"
               [outerStrokeWidth]="2"
               [outerStrokeColor]="'#2ecc71'"
               [innerStrokeWidth]="2"
               [innerStrokeColor]="'#e7e8ea'"
-              startFromZero="false"
+              [startFromZero]="false"
               [clockwise]="true"
               [backgroundPadding]="0"
               [animation]="true"
               [animationDuration]="600"
             ></circle-progress>
             <div id="card-container" style="margin-left: 5%;">
-              <h4 id="card-title"> {{_classes[0].title}}</h4>
-              <p id ="card-content"> {{getTime(_classes[0].startTime)}} - {{getTime(_classes[0].endTime)}} </p>
+              <h4 id="card-title"> {{_classOnGoing?.title}}</h4>
+              <p id ="card-content"> {{getTime(_classOnGoing.startTime)}} - {{getTime(_classOnGoing.endTime)}} </p>
             </div>
 
         </ion-card-content>
@@ -77,7 +87,9 @@
     
           <ion-label>
             <h3> {{ task.title }} </h3>
-            <p > {{ task.count_now }} task now &#8226; {{ task.count_started }} started</p>
+            <p *ngIf="i == 0"> {{ createdTasks }} task now &#8226; {{ startedTasks }} started</p>
+            <p *ngIf="i == 1"> {{ startedTasks }} task now &#8226; {{ startedTasks }} started</p>
+            <p *ngIf="i == 2"> {{ doneTasks }} task now &#8226; {{ doneTasks }} started</p>
 
           </ion-label>
     
@@ -151,4 +163,5 @@
       </ng-template>
     </ion-row> -->
   </ion-grid>
+</div>
 </ion-content>

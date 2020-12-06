@@ -21,6 +21,7 @@
     <ion-item lines="none">
       <ion-card button="true" style="width: 100%" (click)="this.toggleCard()">
         <ion-card-header>
+          <div id="title">
           <ion-card-title>
             <ng-content *ngTemplateOutlet="cardTitleTemplate"></ng-content>
           </ion-card-title>
@@ -29,10 +30,17 @@
             *ngTemplateOutlet="cardImageTemplate"
             style="margin-right: -24%"
           ></ng-content>
+        </div>
+        <div id=subtitle>
+          <ion-card-subtitle>
+            <ng-content *ngTemplateOutlet="cardSubtitleTemplate"></ng-content>
+          </ion-card-subtitle>
+        </div>
           <ion-button fill="clear">
             <!-- <ion-icon name="close" slot="icon-only" color="dark"></ion-icon> -->
           </ion-button>
         </ion-card-header>
+
         <ion-card-content>
           <ng-content *ngTemplateOutlet="cardContentTemplate"></ng-content>
         </ion-card-content>

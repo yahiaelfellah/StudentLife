@@ -30,15 +30,21 @@ const routes: Routes = [
   },
   {
     path: 'sign-up',
-    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule),
-    ...canActivate(redirectUnauthorizedToLogin)
-
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
   {
     path: 'slides',
     loadChildren: () => import('./components/slides/slides.module').then( m => m.SlidesPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
 
+  },
+  {
+    path: 'schedule',
+    loadChildren: () => import('./schedule/schedule.module').then( m => m.SchedulePageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 @NgModule({

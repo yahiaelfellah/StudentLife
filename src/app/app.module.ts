@@ -21,6 +21,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { AvatarModule } from 'ngx-avatar';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AvatarModule
+    
 
   ],
   providers: [

@@ -1,3 +1,5 @@
+import { ClassService } from 'src/app/services/class.service';
+import { TaskService } from 'src/app/services/task.service';
 import { Component } from "@angular/core";
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { ModalPage } from "../components/modal/modal.page";
@@ -9,10 +11,21 @@ import { MymodalPage } from "../components/mymodal/mymodal.page";
   styleUrls: ["tabs.page.scss"],
 })
 export class TabsPage {
+  public newTask: boolean = false;
+  public newClass: boolean = false;
   constructor(
     public actionSheetController: ActionSheetController,
-    public modalController: ModalController
-  ) {}
+    public modalController: ModalController,
+    public taskService : TaskService,
+    public classService: ClassService
+  ) {
+    this.taskService._newTask.subscribe((val) => {
+      this.newTask = val;
+    })
+    this.classService._newClass.subscribe((val) => {
+      this.newClass = val;
+    })
+  }
 
   async presentModal(prop) {
     const modal = await this.modalController.create({

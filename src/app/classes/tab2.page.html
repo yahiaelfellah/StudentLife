@@ -14,6 +14,11 @@
     <ion-searchbar [(ngModel)]="searchTerm" ></ion-searchbar>
 
   </ion-row>
+   <div *ngIf='!classValue.length'>
+     <img src="../../assets/images/no-class.gif">
+     <h5>No Classes created yet ! </h5>
+   </div>
+   <div *ngIf='classValue.length'>
     <my-card *ngFor="let class of classValue">
       <span class="card-title">{{class.title}}</span>
       <span class="card-image">
@@ -21,21 +26,26 @@
       </span>
       <span class="card-content">
         <div>
-          <nz-descriptions nzLayout="vertical" nzSize="middle">
-            <nz-descriptions-item nzTitle="Day">{{class.day}}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Start Time"[nzSpan]="2">{{getTime(class.startTime)}}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="End Time" [nzSpan]="2">{{getTime(class.endTime)}}</nz-descriptions-item>
+          <nz-descriptions nzBordered>
+            <nz-descriptions-item nzTitle="Day" [nzSpan]="2">{{class.day}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Start Date" >{{getDate(class.startDate)}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="End Date" >{{getDate(class.endDate)}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Start Time">{{getTime(class.startTime)}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="End Time" >{{getTime(class.endTime)}}</nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
               {{class.description}}
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
-              <nz-badge nzStatus="processing" nzText="Running" [nzStandalone]='true'></nz-badge>
+              <nz-badge [nzStatus]="checkStatus(class.endDate).status" [nzText]="checkStatus(class.endDate).status" [nzStandalone]='true'></nz-badge>
             </nz-descriptions-item>
           </nz-descriptions>
-
         </div>
+        <ion-button (click)="deleteCourse(class)" fill="outline" color="danger" style="margin-top: 5%;">
+          <ion-icon name="trash-sharp"></ion-icon>          
+          Delete {{ class.title}}
+        </ion-button>
       </span>
     </my-card>
-
+  </div>
 </ion-content>

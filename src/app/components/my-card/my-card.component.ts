@@ -36,6 +36,7 @@ export class MyCardComponent implements AfterViewInit {
   @Input() public cardTitleTemplate: TemplateRef<any> = null;
   @Input() public cardImageTemplate: TemplateRef<any> = null;
   @Input() public cardContentTemplate: TemplateRef<any> = null;
+  @Input() public cardSubtitleTemplate: TemplateRef<any> = null;
 
   constructor(
     private animationCtrl: AnimationController,

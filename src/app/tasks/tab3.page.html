@@ -14,60 +14,174 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-row style="display: flex;justify-content: center;">
-    <img style="width: 80%;" src = "../../assets/images/tasks.gif">
-
+  <ion-row style="display: flex; justify-content: center">
+    <img style="width: 80%" src="../../assets/images/tasks-bis.gif" />
   </ion-row>
-    <ion-row >
-      <ion-chip *ngIf="searchItem === 'started'" color="primary">
-        <ion-label  (click)='changeFilter("started")'>In Progress</ion-label>
-      </ion-chip>
-      <ion-chip  *ngIf="searchItem === 'created'" color="danger">
-        <ion-label (click)='changeFilter("created")'>To Do</ion-label>
-      </ion-chip>
-      <ion-chip *ngIf="searchItem === 'done'" color="success">
-        <ion-label (click)='changeFilter("done")'>Done</ion-label>
-      </ion-chip>
-      <ion-chip *ngIf="searchItem !== ''">
-        <ion-label (click)='close()'>Clear</ion-label>
-      </ion-chip>
-    </ion-row>
-    <my-card style="width: 100%"  [cardTitleTemplate]='cardTitle'  [cardImageTemplate]="cardImage" [cardContentTemplate]="cardContent" *ngFor="let task of tasksValue" [sliding]="true">
-      <ng-template #cardTitle><h6>{{task.title}}</h6></ng-template>
-      <ng-template #cardImage
-        ><ion-chip outline [color]="checkStatus(task.endTask).color">
-          <ion-label>{{checkStatus(task.endTask).label}}</ion-label>
-        </ion-chip></ng-template
+  <ion-row style="display: flex; justify-content: center">
+    <ion-chip *ngIf="searchItem === 'started'" color="primary">
+      <ion-label (click)='changeFilter("started")'>In Progress</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="searchItem === 'created'" color="danger">
+      <ion-label (click)='changeFilter("created")'>To Do</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="searchItem === 'done'" color="success">
+      <ion-label (click)='changeFilter("done")'>Done</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="searchItem !== ''">
+      <ion-label (click)="close()">Clear</ion-label>
+    </ion-chip>
+  </ion-row>
+  <ion-card *ngIf="!tasksValue.length">
+    <ion-card-content style="display: flex; align-items: center; flex-direction: column;">
+      <img style="width: 40%;"src="../../assets/images/empty_box.png">
+      <p>No Exam Created yet</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-row *ngIf="tasksValue.length">
+  <my-card
+    style="width: 100%"
+    [cardTitleTemplate]="cardTitle"
+    [cardImageTemplate]="cardImage"
+    [cardContentTemplate]="cardContent"
+    [cardSubtitleTemplate]="cardSubtitle"
+    *ngFor="let task of tasksValue"
+    [sliding]="true"
+  >
+    <ng-template #cardTitle><h6>{{task.title}}</h6> </ng-template>
+    <ng-template #cardSubtitle>
+      <p><b>{{getRemainingTime(task)}}</b> to go</p>
+    </ng-template>
+    <ng-template #cardImage
+      ><ion-chip outline [color]="checkStatus(task).color">
+        <ion-label>{{checkStatus(task).label}}</ion-label>
+      </ion-chip></ng-template
+    >
+    <ng-template #cardContent>
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Class"
+          >{{task.class}}</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="Deadline" [nzSpan]="2"
+          >{{formattedDate(task.endTask)}}</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
+          {{task.description}}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+          <nz-badge
+            nzStatus="processing"
+            nzText="Running"
+            [nzStandalone]="true"
+          ></nz-badge>
+        </nz-descriptions-item>
+      </nz-descriptions>
+      <ion-button
+        (click)="deleteTask(task)"
+        fill="outline"
+        color="danger"
+        style="margin-top: 5%"
       >
-      <ng-template #cardContent>
-        <nz-descriptions nzBordered nzLayout="vertical" nzSize="middle">
-          <nz-descriptions-item nzTitle="Class"
-            >{{task.class}}</nz-descriptions-item
-          >
-          <nz-descriptions-item nzTitle="Deadline" [nzSpan]="2"
-            >{{formattedDate(task.endTask)}}</nz-descriptions-item
-          >
-          <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
-            {{task.description}}
-          </nz-descriptions-item>
-          <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
-            <nz-badge
-              nzStatus="processing"
-              nzText="Running"
-              [nzStandalone]="true"
-            ></nz-badge>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </ng-template>
-      <div class="sliding-options" style="display: flex;">
-        <ion-item-option color="#27ae60">
-          <ion-icon  style="font-size: 1.5rem;" color="success" name="checkmark-done-circle" (click)="sliddingEdit(task.id,task,'done')"></ion-icon>
-                </ion-item-option>
-        <ion-item-option color="#27ae60">
-          <ion-icon  style="font-size: 1.5rem;" color="primary" name="star" (click)="sliddingEdit(task.id,task,'started')"></ion-icon>
-        </ion-item-option>
-      </div>
-    </my-card>
-    <ion-row style="justify-content: center"> <h5>Exams</h5> </ion-row>
-    <ion-row> </ion-row>
+        <ion-icon name="trash-sharp"></ion-icon>
+        Delete {{ task.title}}
+      </ion-button>
+    </ng-template>
+    <div class="sliding-options" style="display: flex">
+      <ion-item-option color="#27ae60">
+        <ion-icon
+          style="font-size: 1.5rem"
+          color="success"
+          name="checkmark-done-circle"
+          (click)="sliddingEdit(task.id,task,'done')"
+        ></ion-icon>
+      </ion-item-option>
+      <ion-item-option color="#27ae60">
+        <ion-icon
+          style="font-size: 1.5rem"
+          color="primary"
+          name="star"
+          (click)="sliddingEdit(task.id,task,'started')"
+        ></ion-icon>
+      </ion-item-option>
+    </div>
+  </my-card>
+</ion-row>
+  <ion-row style="justify-content: center"> <h5>Exams</h5> </ion-row>
+  <ion-card *ngIf="!examValue.length">
+    <ion-card-content style="display: flex; align-items: center; flex-direction: column;">
+      <img style="width: 40%;"src="../../assets/images/empty_box.png">
+      <p>No Exam Created yet</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-row *ngIf="examValue.length"> 
+    <my-card
+    style="width: 100%"
+    [cardTitleTemplate]="cardTitle"
+    [cardImageTemplate]="cardImage"
+    [cardContentTemplate]="cardContent"
+    [cardSubtitleTemplate]="cardSubtitle"
+    *ngFor="let task of examValue"
+    [sliding]="true"
+  >
+    <ng-template #cardTitle><h6>{{task.title}}</h6> </ng-template>
+    <ng-template #cardSubtitle>
+      <p><b>{{getRemainingTime(task)}}</b> to go</p>
+    </ng-template>
+    <ng-template #cardImage
+      ><ion-chip outline [color]="checkStatus(task).color">
+        <ion-label>{{checkStatus(task).label}}</ion-label>
+      </ion-chip></ng-template
+    >
+    <ng-template #cardContent>
+      <nz-descriptions nzBordered>
+        <nz-descriptions-item nzTitle="Class"
+          >{{task.class}}</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="Deadline" [nzSpan]="2"
+          >{{formattedDate(task.endTask)}}</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
+          {{task.description}}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+          <nz-badge
+            nzStatus="processing"
+            nzText="Running"
+            [nzStandalone]="true"
+          ></nz-badge>
+        </nz-descriptions-item>
+      </nz-descriptions>
+      <ion-button
+        (click)="deleteTask(task)"
+        fill="outline"
+        color="danger"
+        style="margin-top: 5%"
+      >
+        <ion-icon name="trash-sharp"></ion-icon>
+        Delete {{ task.title}}
+      </ion-button>
+    </ng-template>
+    <div class="sliding-options" style="display: flex">
+      <ion-item-option color="#27ae60">
+        <ion-icon
+          style="font-size: 1.5rem"
+          color="success"
+          name="checkmark-done-circle"
+          (click)="sliddingEdit(task.id,task,'done')"
+        ></ion-icon>
+      </ion-item-option>
+      <ion-item-option color="#27ae60">
+        <ion-icon
+          style="font-size: 1.5rem"
+          color="primary"
+          name="star"
+          (click)="sliddingEdit(task.id,task,'started')"
+        ></ion-icon>
+      </ion-item-option>
+    </div>
+  </my-card>
+  </ion-row>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
 </ion-content>

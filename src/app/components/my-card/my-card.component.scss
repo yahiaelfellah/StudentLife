@@ -21,8 +21,20 @@
   }
   ion-card-header {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+  #title {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+  #subtitle {
+    display: flex;
+    flex-direction: row;
+    margin-left: 6%;
+    margin-top: -7%;
   }
   ion-card-content,
   ion-button {

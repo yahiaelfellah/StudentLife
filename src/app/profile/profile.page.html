@@ -1,0 +1,62 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-row>
+      <ion-title style="text-align: center"> Me </ion-title>
+    </ion-row>
+    <ion-back-button></ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="_user">
+  <ion-row id="account">
+    <ngx-avatar [name]="_user?.displayName" size="150"></ngx-avatar>
+    <ion-fab-button
+      style="margin-left: 31%; margin-top: -14%"
+      size="small"
+      class="btn-fab-list"
+      color="white"
+    >
+    <ion-icon name="camera"></ion-icon>
+  </ion-fab-button>
+  </ion-row>
+  <ion-row class="transparent title-list">
+    <ion-item lines="none" style="width: 90%">
+      <ion-label> Name </ion-label>
+      <p>{{_user?.displayName}}</p>
+    </ion-item>
+  </ion-row>
+  <ion-row class="transparent title-list">
+    <ion-item lines="none" style="width: 90%">
+      <ion-label> Email </ion-label>
+      <p>{{_user?.email}}</p>
+    </ion-item>
+  </ion-row>
+  <ion-row class="transparent title-list">
+    <ion-item lines="none" style="width: 90%">
+      <ion-label> Email Verified </ion-label>
+      <p>{{_user?.emailVerified}}</p>
+    </ion-item>
+  </ion-row>
+
+  <ion-row style="margin: 2%">
+    <h5>Configuration</h5>
+  </ion-row>
+  <ion-row class="transparent title-list">
+    <ion-item lines="none" style="width: 90%">
+      <ion-label> Notification </ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+  </ion-row>
+  <ion-row class="transparent title-list">
+    <ion-item lines="none" style="width: 90%">
+      <ion-label> Email Verification </ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+  </ion-row>
+</ion-content>
+<ion-content *ngIf="!_user">
+  <div id="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    loading...
+  </div>
+</ion-content>

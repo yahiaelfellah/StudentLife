@@ -1,6 +1,7 @@
 import { Input } from "@angular/core";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
 import { ModalController } from "@ionic/angular";
 import { ClassService } from "src/app/services/class.service";
 import { TaskService } from "src/app/services/task.service";
@@ -21,7 +22,7 @@ export class MymodalPage implements OnInit {
     private formBuilder: FormBuilder,
     private classService: ClassService,
     private taskService : TaskService,
-    public modalController: ModalController
+    public modalController: ModalController,
   ) {
     this.title = "";
     this.days = [
@@ -50,6 +51,7 @@ export class MymodalPage implements OnInit {
       class: ["", Validators.required],
       endTask: ["", Validators.required],
       status:["created"],
+      isExam:[false]
     });
   }
 
@@ -67,14 +69,17 @@ export class MymodalPage implements OnInit {
     this.classService.createClass(this.form.value).then((e) => {
       this.modalController.dismiss();
     });
+
   }
   onTaskSubmit() {
     this.submitted = true;
     if (this.taskForm.invalid) {
       return;
     }
+    this.taskForm.value
     this.taskService.createTask(this.taskForm.value).then(() => {
       this.modalController.dismiss();
+      this.taskService.newTask.next(true);
     });
   }
   cancel() {

@@ -140,10 +140,10 @@
     ora "5.0.0"
     rxjs "6.6.2"
 
-"@angular/animations@^10.2.2":
-  version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-10.2.2.tgz#aa458c12e9cfb19792f5b72239a2fedb8b6bfa9c"
-  integrity sha512-vxDbDeGggYeK5YXuBrzeZEO4nrZoQlJfgdUBGPNJmz97ZgX0sgjbmt3y/S7qupHNwdV4QExkaXRlGk0wcYuEqQ==
+"@angular/animations@^11.0.3":
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-11.0.3.tgz#e93b7cf2b7c797eb1749dbb2894f4181e9bb7ec6"
+  integrity sha512-v0oBfa3Mvnihpbo59bfJw6YwkGYTf6nLVYyKWx2w8pBO3G3ycBAqDqHtDkSBIr13Rq+lSbCgOtrjWxDPLAn9Ig==
   dependencies:
     tslib "^2.0.0"
 
@@ -1097,6 +1097,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@capacitor/android@^2.4.2":
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.4.tgz#6f96a7f37c0e9c5359d887140016f84a8cc1e2f2"
+  integrity sha512-0ueuW7R6PUCSI/bRdVlyM156JtvdJWhIInptC/yIdz/FjdvX8G8Rcb7lVoRk15eVUapqSQZ/S09F8JajaGnJjA==
+
 "@capacitor/cli@2.4.2":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-2.4.2.tgz#3fdb7dedfb2498e2554f757078a0c84ea9aaa76e"
@@ -1380,6 +1385,13 @@
   version "5.30.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/google-plus/-/google-plus-5.30.0.tgz#e2ac5fdc2036e85f671538bfc418e5748d858010"
   integrity sha512-MNmP1O3+KSmhdB3Ebgc7I3RbF1rPLBUSyZ24/BD75F/3Bb9JFDBEZWh9d3ZwcNURVcm4miJmK+HeQmvWiZ36yA==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/local-notifications@^5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/local-notifications/-/local-notifications-5.30.0.tgz#fb4a156a73980e209c6103d40620f5e79cecb4e5"
+  integrity sha512-SHVJI0SsWaOxUDsfPkBxJT9bs2uQxGJVTOyOdXcHwpKZ76/T4nl9G2cCNFvg5omNgh6ukdJ2k29Hjrp6MUdcxg==
   dependencies:
     "@types/cordova" latest
 
