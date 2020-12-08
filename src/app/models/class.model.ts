@@ -1,6 +1,6 @@
 import { Time } from "@angular/common";
 
-export class Class {
+export class  Class {
     id?: string
     userId:string;
     title: string;

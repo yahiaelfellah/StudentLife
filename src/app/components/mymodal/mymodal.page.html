@@ -178,8 +178,8 @@
           class="form-controll"
           [ngClass]="{ 'is-invalid': submitted && _f.class.errors }"
         >
-          <div *ngFor="let class of days">
-            <ion-select-option [value]="class"> {{class}}</ion-select-option>
+          <div *ngFor="let class of classes">
+            <ion-select-option [value]="class.title"> {{class.title}}</ion-select-option>
           </div>
         </ion-select>
         <div
@@ -193,7 +193,7 @@
         <ion-label position="floating">Deadline</ion-label>
         <ion-datetime
           displayFormat="MM/DD/YYYY"
-          formControlName="endTask",
+          formControlName="endTask"
           max="2050"
           [ngClass]="{ 'is-invalid': submitted && _f.endTask.errors }"
           class="form-controll"

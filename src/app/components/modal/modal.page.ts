@@ -1,8 +1,10 @@
-import { ClassService } from "./../../services/class.service";
-import { Component, Input, OnInit } from "@angular/core";
+import { Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
 import { ModalController } from "@ionic/angular";
+import { ClassService } from "src/app/services/class.service";
+import { TaskService } from "src/app/services/task.service";
 
 @Component({
   selector: "app-modal",
@@ -12,14 +14,15 @@ import { ModalController } from "@ionic/angular";
 export class ModalPage implements OnInit {
   @Input() title: string;
   form: FormGroup;
-  taskForm: FormGroup;
   submitted = false;
   loading: false;
   days: string[];
+  taskForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private classService: ClassService,
-    public modalController: ModalController
+    private taskService : TaskService,
+    public modalController: ModalController,
   ) {
     this.title = "";
     this.days = [
@@ -37,22 +40,46 @@ export class ModalPage implements OnInit {
       title: ["", Validators.required],
       description: ["", Validators.required],
       startTime: ["", Validators.required],
+      startDate:["",Validators.required],
+      endDate:["",Validators.required],
       endTime: ["", Validators.required],
       day: ["", Validators.required],
     });
-
+    this.taskForm = this.formBuilder.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required],
+      class: ["", Validators.required],
+      endTask: ["", Validators.required],
+      status:["created"],
+      isExam:[false]
+    });
   }
+
   get f() {
     return this.form.controls;
+  }
+  get _f(){
+    return this.taskForm.controls;
   }
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value);
     this.classService.createClass(this.form.value).then((e) => {
       this.modalController.dismiss();
+    });
+
+  }
+  onTaskSubmit() {
+    this.submitted = true;
+    if (this.taskForm.invalid) {
+      return;
+    }
+    this.taskForm.value
+    this.taskService.createTask(this.taskForm.value).then(() => {
+      this.modalController.dismiss();
+      this.taskService.newTask.next(true);
     });
   }
   cancel() {

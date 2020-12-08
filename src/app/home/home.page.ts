@@ -4,7 +4,7 @@ import { AuthenticationService } from "./../services/authentication.service";
 import { UserService } from "src/app/services/user.service";
 import { TaskService } from "./../services/task.service";
 import { AuthFirebaseService } from "../services/authFirebase.service";
-import { Component, NgZone, OnInit } from "@angular/core";
+import { AfterViewInit, Component, NgZone, OnInit } from "@angular/core";
 import { timer, BehaviorSubject, Observable } from "rxjs";
 import { delayWhen, scan, takeWhile } from "rxjs/operators";
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -13,7 +13,6 @@ import { NavigationExtras, Router } from "@angular/router";
 import { Class } from "../models/class.model";
 import * as moment from "moment";
 import { Task } from "../models/task.model";
-import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
 
 @Component({
   selector: "app-home",
@@ -67,6 +66,7 @@ export class HomePage implements OnInit {
       },
     ];
   }
+
   // single_notification() {
   //   // Schedule a single notification
   //   this.localNotifications.schedule({
@@ -78,18 +78,18 @@ export class HomePage implements OnInit {
   // }
 
   get _classes() {
-    return this.classes.value.sort((a, b) =>
-      this.calculateRemainingTime(a.endTime) <
-      this.calculateRemainingTime(b.endTime)
-        ? 1
-        : -1
-    );
+    return this.classes.value
+      .sort((a, b) =>
+        this.calculateRemainingTime(a.endTime) <
+        this.calculateRemainingTime(b.endTime)
+          ? 1
+          : -1
+      )
+      .filter((o) => o.day === moment().format("dddd"));
   }
   get _classOnGoing() {
     return this._classes.length
-      ? this._classes.filter(
-          (o) => this.calculateRemainingTime(o.endTime) > 0
-        )[0]
+      ? this._classes.filter((o) => o.day === moment().format("dddd"))[0]
       : null;
   }
   get doneTasks() {
@@ -113,40 +113,43 @@ export class HomePage implements OnInit {
   }
   ngOnInit(): void {
     setTimeout(() => {
-      this.ngZone.run(() => {
-        this._user = this.userService._user;
-        this.classService.getClasses().subscribe((value) => {
-          this.classes.next(
-            value.filter(
-              (o) =>
-                o.day === moment().format("dddd") && o.userId === this._user.uid
-            )
-          );
+      this._user = this.userService._user;
+      this.classService.getClasses().subscribe((value) => {
+        this.classes.next(
+          value.filter(
+            (o) =>
+              o.day === moment().format("dddd") && o.userId === this._user.uid
+          )
+          
+        );
+        setTimeout(() => {
           this.remainingTime$ = this.getRemainingTime();
-        });
-        this.taskService.getTasks().subscribe((value) => {
-          this._tasks.next(value.filter((o) => o.userId === this._user.uid));
-        });
+        },3000);
+      });
+      // this.remainingTime$ = this.getRemainingTime();
+      this.taskService.getTasks().subscribe((value) => {
+        this._tasks.next(value.filter((o) => o.userId === this._user.uid));
       });
     }, 500);
+
   }
 
   ionViewWillEnter() {
     setTimeout(() => {
-      this.ngZone.runOutsideAngular(() => {
-        this._user = this.userService._user;
-        this.classService.getClasses().subscribe((value) => {
-          this.classes.next(
-            value.filter(
-              (o) =>
-                o.day === moment().format("dddd") && o.userId === this._user.uid
-            )
-          );
+      this._user = this.userService._user;
+      this.classService.getClasses().subscribe((value) => {
+        this.classes.next(
+          value.filter(
+            (o) =>
+              o.day === moment().format("dddd") && o.userId === this._user.uid
+          )
+        );
+        setTimeout(() => {
           this.remainingTime$ = this.getRemainingTime();
-        });
-        this.taskService.getTasks().subscribe((value) => {
-          this._tasks.next(value.filter((o) => o.userId === this._user.uid));
-        });
+        },3000);
+      });
+      this.taskService.getTasks().subscribe((value) => {
+        this._tasks.next(value.filter((o) => o.userId === this._user.uid));
       });
     }, 500);
   }
@@ -158,11 +161,12 @@ export class HomePage implements OnInit {
     return moment(end).diff(moment(), "minutes");
   }
   getRemainingTime(): Observable<number> {
-    const time = this._classes ? this._classes[0].endTime : 0;
+    const time = this._classes.length ? this._classes[0].endTime : 0;
     return timer(0, 60000).pipe(
       scan((acc) => --acc, this.calculateRemainingTime(time)),
       takeWhile((x) => x >= 0)
     );
+
   }
   getUserData() {
     this._user = this.userService._user;

@@ -30,10 +30,10 @@ export class Tab3Page {
   }
 
   get tasksValue() {
-    return this.filterItems(this.searchItem).filter(o => !o.isExam);
+    return this.filterItems(this.searchItem).filter((o) => !o.isExam);
   }
-  get examValue(){
-    return this.filterItems(this.searchItem).filter(o => o.isExam);
+  get examValue() {
+    return this.filterItems(this.searchItem).filter((o) => o.isExam);
   }
   getRemainingTime(task: Task) {
     const inHours = moment(task.endTask).endOf("day").diff(moment(), "hours");
@@ -43,6 +43,9 @@ export class Tab3Page {
     const inSeconds = moment(task.endTask)
       .endOf("day")
       .diff(moment(), "seconds");
+    if (task.status === "done") {
+      return "0 minutes";
+    }
     if (inHours <= 0) {
       return `${inMinuts} minutes`;
     }
@@ -53,10 +56,17 @@ export class Tab3Page {
   }
 
   checkStatus(value: Task) {
-    return moment(value.endTask).endOf("day").diff(moment(), "seconds") < 0 &&
+    const time = moment(value.endTask).endOf("day").diff(moment(), "seconds");
+    if (
+      time < 0 &&
       (value.status === "created" || value.status === "started")
-      ? { color: "danger", label: "Overdue" }
-      : { color: "success", label: "Running" };
+    ) {
+      return { color: "danger", label: "Overdue" };
+    }
+    if (time <= 0 && value.status === "done") {
+      return { color: "success", label: "Done" };
+    }
+    return { color: "primary", label: "Running" };
   }
   formattedDate(value) {
     return moment(value).endOf("day").format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -77,10 +87,8 @@ export class Tab3Page {
   filterItems(searchTerm) {
     if (this.data.value) {
       return this.data.value.filter((item) => {
-            return (
-              item.status.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-          });
+        return item.status.toLowerCase().includes(searchTerm.toLowerCase());
+      });
     }
     return this.tasks;
   }
@@ -111,5 +119,30 @@ export class Tab3Page {
   sliddingEdit(id: string, task: Task, value: string) {
     task.status = value;
     this.taskService.editTask(id, task);
+  }
+  _checkStatus(value: Task) {
+    const remaining = moment(value.endTask).diff(moment(), "days");
+    if (
+      remaining > 0 &&
+      (value.status === "created" || value.status === "started")
+    ) {
+      return {
+        status: "processing",
+        text: "Running",
+      };
+    }
+    if (
+      remaining < 0 &&
+      (value.status === "created" || value.status === "started")
+    ) {
+      return {
+        status: "error",
+        text: "failed",
+      };
+    }
+    return {
+      status: "success",
+      text: "Ended",
+    };
   }
 }

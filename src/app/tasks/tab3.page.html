@@ -68,11 +68,13 @@
           {{task.description}}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
-          <nz-badge
+          <!-- <nz-badge
             nzStatus="processing"
             nzText="Running"
             [nzStandalone]="true"
-          ></nz-badge>
+          ></nz-badge> -->
+          <nz-badge [nzStatus]="_checkStatus(task).status" [nzText]="_checkStatus(task).text" [nzStandalone]='true'></nz-badge>
+
         </nz-descriptions-item>
       </nz-descriptions>
       <ion-button
@@ -105,7 +107,7 @@
     </div>
   </my-card>
 </ion-row>
-  <ion-row style="justify-content: center"> <h5>Exams</h5> </ion-row>
+  <!-- <ion-row style="justify-content: center"> <h5>Exams</h5> </ion-row>
   <ion-card *ngIf="!examValue.length">
     <ion-card-content style="display: flex; align-items: center; flex-direction: column;">
       <img style="width: 40%;"src="../../assets/images/empty_box.png">
@@ -179,7 +181,7 @@
       </ion-item-option>
     </div>
   </my-card>
-  </ion-row>
+  </ion-row> -->
   <br/>
   <br/>
   <br/>

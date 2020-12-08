@@ -44,7 +44,7 @@ export class Tab2Page {
     const remaining = moment(value).diff(moment(), "days");
     if(remaining < 0) {
       return {
-        status:'processong',
+        status:'processing',
         text:'Running'
       }
     }

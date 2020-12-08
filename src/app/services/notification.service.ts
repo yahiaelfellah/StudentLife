@@ -9,13 +9,13 @@ export class NotificationService {
 
   constructor(private localNotifications: LocalNotifications) { }
 
-  scheduleNotification(classes : Class[]){
-    classes.forEach(async (c) => {
-      await this.localNotifications.schedule({
-        title : `${c.title}`,
-        text : 'The class will start in 5 minite',
-        // trigger: { every: ELocalNotificationTriggerUnit.WEEK,at: (c.startTime.getTime() - 300000) }
-      })
-    })
-  }
+  // scheduleNotification(classes : Class[]){
+  //   classes.forEach(async (c) => {
+  //     await this.localNotifications.schedule({
+  //       title : `${c.title}`,
+  //       text : 'The class will start in 5 minite',
+  //       // trigger: { every: ELocalNotificationTriggerUnit.WEEK,at: (c.startTime.getTime() - 300000) }
+  //     })
+  //   })
+  // }
 }

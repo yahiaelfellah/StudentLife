@@ -44,11 +44,11 @@
           <p>All classes has ended for Today</p>
         </ion-card-content>
       </ion-card>
-      <ion-card *ngIf="_classOnGoing">
+      <ion-card *ngIf="_classes">
         <ion-card-content style="display: flex; align-items: center;">
             <circle-progress
               [radius]="40"
-              [percent]="remainingTime$|async"
+              [percent]=" remainingTime$|async"
               units="Mins"
               [outerStrokeWidth]="2"
               [outerStrokeColor]="'#2ecc71'"
@@ -61,8 +61,8 @@
               [animationDuration]="600"
             ></circle-progress>
             <div id="card-container" style="margin-left: 5%;">
-              <h4 id="card-title"> {{_classOnGoing?.title}}</h4>
-              <p id ="card-content"> {{getTime(_classOnGoing.startTime)}} - {{getTime(_classOnGoing.endTime)}} </p>
+              <h4 id="card-title"> {{_classes[0]?.title}}</h4>
+              <p id ="card-content"> {{getTime(_classes[0].startTime)}} - {{getTime(_classes[0].endTime)}} </p>
             </div>
 
         </ion-card-content>
