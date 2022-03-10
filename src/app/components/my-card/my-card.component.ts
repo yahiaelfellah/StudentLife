@@ -7,6 +7,8 @@ import {
   Input,
   ContentChild,
   TemplateRef,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 import {
   AnimationController,
@@ -27,8 +29,8 @@ export class MyCardComponent implements AfterViewInit {
   private state: "initial" | "transitioning" | "expanded" = "initial";
   public toggleTitleAnimation: Animation;
   public visibleWhenOpenAnimations: Animation;
-  @Input() public sliding : boolean = false;
-  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef;
+  @Input() public sliding: boolean = false;
+  @ViewChild(IonCard, { read: ElementRef, static: false }) card: ElementRef;
   @ViewChild(IonCardTitle, { read: ElementRef }) titleElement: ElementRef;
   @ViewChild(IonButton, { read: ElementRef }) closeElement: ElementRef;
   @ViewChild(IonCardContent, { read: ElementRef }) contentElement: ElementRef;
@@ -37,6 +39,8 @@ export class MyCardComponent implements AfterViewInit {
   @Input() public cardImageTemplate: TemplateRef<any> = null;
   @Input() public cardContentTemplate: TemplateRef<any> = null;
   @Input() public cardSubtitleTemplate: TemplateRef<any> = null;
+  @Output() cardOpened = new EventEmitter();
+  @Output() cardClosed = new EventEmitter();
 
   constructor(
     private animationCtrl: AnimationController,
@@ -100,6 +104,7 @@ export class MyCardComponent implements AfterViewInit {
   }
 
   async open() {
+    this.cardOpened.emit();
     this.state = "transitioning";
     this.toggleTitleAnimation.direction("normal");
 
@@ -109,6 +114,7 @@ export class MyCardComponent implements AfterViewInit {
   }
 
   async close() {
+    this.cardClosed.emit();
     this.state = "transitioning";
     this.toggleTitleAnimation.direction("normal");
     this.visibleWhenOpenAnimations.direction("reverse");
@@ -118,7 +124,6 @@ export class MyCardComponent implements AfterViewInit {
       this.visibleWhenOpenAnimations.play(),
     ]);
     await this.shrinkCard();
-
     return (this.state = "initial");
   }
 
@@ -151,7 +156,8 @@ export class MyCardComponent implements AfterViewInit {
         ["overflow"]: "scroll",
       })
       .beforeAddWrite(() => {
-        this.renderer.setStyle(this.hostElement.nativeElement, "z-index", "2");
+        this.renderer.setStyle(this.hostElement.nativeElement, "z-index", "1000");
+        window.scroll(0, 0);
       })
       .easing("ease-in-out")
       .fromTo(

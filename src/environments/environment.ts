@@ -5,16 +5,16 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyB7hoUwB7ze6oTTwIg4CiPzt40x9O5keT4",
-    authDomain: "studentlife-9b902.firebaseapp.com",
-    databaseURL: "https://studentlife-9b902.firebaseio.com",
-    projectId: "studentlife-9b902",
-    storageBucket: "studentlife-9b902.appspot.com",
-    messagingSenderId: "988796495761",
-    appId: "1:988796495761:web:a9f8602c1d0e0a79621c30"
+    apiKey: "AIzaSyCMtJ0paJh1NBJGMS5hp5xxRKjA-S2MsDQ",
+    authDomain: "mti840-iotproject.firebaseapp.com",
+    databaseURL: "https://mti840-iotproject-default-rtdb.firebaseio.com",
+    projectId: "mti840-iotproject",
+    storageBucket: "mti840-iotproject.appspot.com",
+    messagingSenderId: "555233622364",
+    appId: "1:555233622364:web:64cc8a8a3de82716b1e999"
   },
   googlePLus: {
-    key:'AIzaSyB7hoUwB7ze6oTTwIg4CiPzt40x9O5keT4'
+    key: 'AIzaSyB7hoUwB7ze6oTTwIg4CiPzt40x9O5keT4'
   }
 };
 

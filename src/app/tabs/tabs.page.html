@@ -19,33 +19,48 @@
 
 </ion-tabs> -->
 
-<ion-tabs>  
-
-  <ion-fab vertical="bottom" horizontal="center" translucent="true" (click)="presentActionSheet()">
+<ion-tabs>
+  <ion-fab
+    vertical="bottom"
+    horizontal="center"
+    translucent="true"
+    (click)="presentActionSheet()"
+  >
     <ion-fab-button class="floating">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  
+
   <ion-tab-bar slot="bottom" class="ion-no-border">
-    <ion-tab-button tab="home">
+    <ion-tab-button tab="homeiot">
       <ion-icon name="compass"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="classes" class="comments">
+    <!-- <ion-tab-button tab="classes" class="comments">
       <ion-icon name="book-outline"></ion-icon>
       <ion-badge color="danger" *ngIf="newClass"></ion-badge>
-    </ion-tab-button>
+    </ion-tab-button> -->
 
-    <svg height="50" viewBox="0 0 100 50" width="100" xmlns="http://www.w3.org/2000/svg"><path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z" fill="red" fill-rule="evenodd"></path></svg>
+    <svg
+      height="50"
+      viewBox="0 0 100 50"
+      width="100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z"
+        fill="red"
+        fill-rule="evenodd"
+      ></path>
+    </svg>
 
     <ion-tab-button tab="task" class="notifs">
       <ion-icon name="notifications"></ion-icon>
       <ion-badge color="danger" *ngIf="newTask"></ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
+    <!-- <ion-tab-button tab="profile">
       <ion-icon name="person"></ion-icon>
-    </ion-tab-button>
+    </ion-tab-button> -->
   </ion-tab-bar>
 </ion-tabs>

@@ -1,9 +1,10 @@
-import { ClassService } from 'src/app/services/class.service';
-import { TaskService } from 'src/app/services/task.service';
+
 import { Component } from "@angular/core";
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { ModalPage } from "../components/modal/modal.page";
 import { MymodalPage } from "../components/mymodal/mymodal.page";
+import { ClassService } from "../services/class.service";
+import { TaskService } from "../services/task.service";
 
 @Component({
   selector: "app-tabs",
@@ -16,7 +17,7 @@ export class TabsPage {
   constructor(
     public actionSheetController: ActionSheetController,
     public modalController: ModalController,
-    public taskService : TaskService,
+    public taskService: TaskService,
     public classService: ClassService
   ) {
     this.taskService._newTask.subscribe((val) => {

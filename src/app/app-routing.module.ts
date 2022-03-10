@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedInToItems = () => redirectLoggedInTo(['home']);
+const redirectLoggedInToItems = () => redirectLoggedInTo(['homeiot']);
 
 const routes: Routes = [
   {
@@ -13,39 +13,44 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule),
+    loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule),
     ...canActivate(redirectLoggedInToItems)
   },
   {
     path: 'register',
-    loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule),
+    loadChildren: () => import('./auth/register/register.module').then(m => m.RegisterPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
 
   },
   {
     path: 'mymodal',
-    loadChildren: () => import('./components/mymodal/mymodal.module').then( m => m.MymodalPageModule),
+    loadChildren: () => import('./components/mymodal/mymodal.module').then(m => m.MymodalPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
 
   },
   {
     path: 'sign-up',
-    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
+    loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpPageModule)
   },
   {
     path: 'slides',
-    loadChildren: () => import('./components/slides/slides.module').then( m => m.SlidesPageModule),
+    loadChildren: () => import('./components/slides/slides.module').then(m => m.SlidesPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
 
   },
   {
     path: 'schedule',
-    loadChildren: () => import('./schedule/schedule.module').then( m => m.SchedulePageModule)
+    loadChildren: () => import('./schedule/schedule.module').then(m => m.SchedulePageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+  },
+  {
+    path: 'homeiot',
+    loadChildren: () => import('./homeiot/homeiot.module').then(m => m.HomeiotPageModule)
   }
+
 ];
 @NgModule({
   imports: [
@@ -53,4 +58,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

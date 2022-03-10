@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then(m => m.Tab1PageModule)
       },
       {
+        path: 'homeiot',
+        loadChildren: () => import('../homeiot/homeiot.module').then(m => m.HomeiotPageModule)
+      },
+      {
         path: 'classes',
         loadChildren: () => import('../classes/tab2.module').then(m => m.Tab2PageModule)
       },
@@ -20,12 +24,12 @@ const routes: Routes = [
         loadChildren: () => import('../tasks/tab3.module').then(m => m.Tab3PageModule),
       },
       {
-        path:"profile",
+        path: "profile",
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule),
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'homeiot',
         pathMatch: 'full'
       }
     ]
@@ -41,4 +45,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

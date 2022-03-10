@@ -1,51 +1,60 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
     <ion-row>
-      <ion-title style="text-align: center;margin-left: 2.5rem;"> Home </ion-title>
-      <ion-button class="bigEntrance"shape="round" fill="clear" size="small" (click)="authService.SignOut()">
+      <ion-title style="text-align: center; margin-left: 2.5rem">
+        Home
+      </ion-title>
+      <ion-button
+        class="bigEntrance"
+        shape="round"
+        fill="clear"
+        size="small"
+        (click)="authService.SignOut()"
+      >
         <ion-icon name="log-in-outline"></ion-icon>
       </ion-button>
     </ion-row>
-
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true">
   <ion-header collapse="condense" class="ion-no-border">
     <ion-toolbar>
       <ion-title style="text-align: center" size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-refresher slot="fixed">
+  <!-- <ion-refresher slot="fixed">
     <ion-refresher-content
       pullingText="Pull to refresh"
       refreshingSpinner="circles"
     >
     </ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher> -->
   <div id="loading" *ngIf="!_user">
     <ion-spinner name="crescent"></ion-spinner>
     loading...
   </div>
-  <div  *ngIf="_user">
-  <ion-row id="account">
+  <div *ngIf="_user">
+    <!-- <ion-row id="account">
     <ngx-avatar [name]="_user?.displayName" size=80></ngx-avatar>
     <h5>{{_user?.displayName}}</h5>
-  </ion-row>
-  <ion-grid>
-    <ion-row id="task">
-      <h5>My Day</h5>
-      <p>Today - {{date}}</p>
-    </ion-row>
-    <ion-row >
-      <ion-card *ngIf="!_classOnGoing">
-        <ion-card-content style="display: flex; align-items: center; flex-direction: column;">
-          <img style="width: 40%;"src="../../assets/images/empty_box.png">
-          <p>All classes has ended for Today</p>
-        </ion-card-content>
-      </ion-card>
-      <ion-card *ngIf="_classes">
-        <ion-card-content style="display: flex; align-items: center;">
+  </ion-row> -->
+    <ion-grid>
+      <ion-row id="task">
+        <h5>My Day</h5>
+        <p>Today - {{date}}</p>
+      </ion-row>
+      <ion-row>
+        <ion-card *ngIf="!_classOnGoing">
+          <ion-card-content
+            style="display: flex; align-items: center; flex-direction: column"
+          >
+            <div class="icon"></div>
+            <p>All classes has ended for Today</p>
+          </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="_classes">
+          <ion-card-content style="display: flex; align-items: center">
             <circle-progress
               [radius]="40"
               [percent]=" remainingTime$|async"
@@ -60,45 +69,55 @@
               [animation]="true"
               [animationDuration]="600"
             ></circle-progress>
-            <div id="card-container" style="margin-left: 5%;">
-              <h4 id="card-title"> {{_classes[0]?.title}}</h4>
-              <p id ="card-content"> {{getTime(_classes[0].startTime)}} - {{getTime(_classes[0].endTime)}} </p>
+            <div id="card-container" style="margin-left: 5%">
+              <h4 id="card-title">{{_classes[0]?.title}}</h4>
+              <p id="card-content">
+                {{getTime(_classes[0].startTime)}} -
+                {{getTime(_classes[0].endTime)}}
+              </p>
             </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+      <ion-row id="tasks-row">
+        <ion-list class="list-tasks">
+          <ion-item lines="none" class="transparent title-list">
+            <ion-label>
+              <h2>My tasks</h2>
+            </ion-label>
+          </ion-item>
 
-        </ion-card-content>
-      </ion-card>
+          <ion-item
+            lines="none"
+            class="transparent task"
+            *ngFor="let task of tasks;let i = index"
+          >
+            <ion-fab-button
+              slot="start"
+              [color]="task.color"
+              size="small"
+              class="btn-fab-list"
+            >
+              <ion-icon [name]="task.icon"></ion-icon>
+            </ion-fab-button>
 
-    </ion-row>
-    <ion-row id="tasks-row">
-      <ion-list class="list-tasks">
-        <ion-item lines="none" class="transparent title-list">
-          <ion-label>
-            <h2>
-              My tasks
-            </h2>
-          </ion-label>
-  
-        </ion-item>
-    
-        <ion-item lines="none" class="transparent task" *ngFor="let task of tasks;let i = index">
-          <ion-fab-button slot="start" [color]="task.color" size="small" class="btn-fab-list" (click)='goToTask(i)'>
-            <ion-icon [name]="task.icon"></ion-icon>
-          </ion-fab-button>
-    
-          <ion-label>
-            <h3> {{ task.title }} </h3>
-            <p *ngIf="i == 0"> {{ createdTasks }} task now &#8226; {{ startedTasks }} started</p>
-            <p *ngIf="i == 1"> {{ startedTasks }} task now &#8226; {{ startedTasks }} started</p>
-            <p *ngIf="i == 2"> {{ doneTasks }} task now &#8226; {{ doneTasks }} started</p>
+            <ion-label>
+              <h3>{{ task.title }}</h3>
+              <p *ngIf="i == 0">
+                {{ createdTasks }} task now &#8226; {{ startedTasks }} started
+              </p>
+              <p *ngIf="i == 1">
+                {{ startedTasks }} task now &#8226; {{ startedTasks }} started
+              </p>
+              <p *ngIf="i == 2">
+                {{ doneTasks }} task now &#8226; {{ doneTasks }} started
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-row>
 
-          </ion-label>
-    
-        </ion-item>
-    
-      </ion-list>
-    </ion-row>
-
-    <!-- <ion-row>
+      <!-- <ion-row>
       <nz-card style="width: 21rem">
         <nz-skeleton
           [nzActive]="true"
@@ -162,6 +181,6 @@
         <h6 style="text-align: center; margin: 0">Tasks</h6>
       </ng-template>
     </ion-row> -->
-  </ion-grid>
-</div>
+    </ion-grid>
+  </div>
 </ion-content>
