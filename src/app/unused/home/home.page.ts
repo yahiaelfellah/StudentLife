@@ -4,15 +4,15 @@ import { AfterViewInit, Component, NgZone, OnInit } from "@angular/core";
 import { timer, BehaviorSubject, Observable } from "rxjs";
 import { delayWhen, scan, takeWhile } from "rxjs/operators";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { _User } from "../models/user.model";
+import { _User } from "../../models/user.model";
 import { NavigationExtras, Router } from "@angular/router";
-import { Class } from "../models/class.model";
+import { Class } from "../../models/class.model";
 import * as moment from "moment";
-import { Task } from "../models/task.model";
-import { AuthenticationService } from "../services/authentication.service";
-import { ClassService } from "../services/class.service";
-import { TaskService } from "../services/task.service";
-import { UserService } from "../services/user.service";
+import { Task } from "../../models/task.model";
+import { AuthenticationService } from "../../services/authentication.service";
+import { ClassService } from "../../services/class.service";
+import { TaskService } from "../../services/task.service";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: "app-home",

@@ -40,11 +40,11 @@ const routes: Routes = [
   },
   {
     path: 'schedule',
-    loadChildren: () => import('./schedule/schedule.module').then(m => m.SchedulePageModule)
+    loadChildren: () => import('./unused/schedule/schedule.module').then(m => m.SchedulePageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+    loadChildren: () => import('./unused/profile/profile.module').then(m => m.ProfilePageModule)
   },
   {
     path: 'homeiot',

@@ -1,45 +1,80 @@
 <ion-header [translucent]="true" class="ion-no-border">
-    <ion-toolbar>
-      <ion-title style="text-align: center"> Login </ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center"> Login </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content class="login">
-    <ion-grid style="height: 100%">
-        <ion-row  style="height: 100%; flex-direction: column">
-            <div id=login>
-                <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input nz-input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                            <div *ngIf="f.username.errors.required">Username is required</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <nz-input-group [nzSuffix]="suffixTemplate">
-                            <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                        </nz-input-group>
-                        <ng-template #suffixTemplate>
-                            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
-                          </ng-template>
-                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback" >
-                            <div *ngIf="f.password.errors.required">Password is required</div>
-                        </div>
-                    </div>
-                    <div class="form-group" style=" 
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: baseline;">
-                        <button [disabled]="loading" nzBlock nz-button nzType="primary" [nzSize]="'large'" [nzLoading]="loading" nzShape="round">
-                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                            Login
-                        </button>
-                        <a routerLink="/sign-up" class="btn btn-link">Register</a>
-                    </div>
-                </form>
-                <ion-item-divider></ion-item-divider>
+  <ion-grid style="height: 100%">
+    <ion-row style="height: 100%; flex-direction: column">
+      <div id="login">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              nz-input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+            />
+            <div
+              *ngIf="submitted && f.username.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              nz-input
+              [type]="passwordVisible ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+            />
+            <!-- <ng-template #suffixTemplate>
+              <i
+                nz-icon
+                [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                (click)="passwordVisible = !passwordVisible"
+              ></i>
+            </ng-template> -->
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+          </div>
+          <div
+            class="form-group"
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: baseline;
+            "
+          >
+            <button
+              [disabled]="loading"
+              nzBlock
+              nz-button
+              nzType="primary"
+              [nzSize]="'large'"
+              [nzLoading]="loading"
+              nzShape="round"
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+              Login
+            </button>
+          </div>
+          <a routerLink="/sign-up" class="btn btn-link">Register</a>
+        </form>
+        <!-- <ion-item-divider></ion-item-divider>
                 <div class="social-group" >
                     <button [disabled]="loading" nz-button nzType="default" nzShape="round">
                         <img src="assets/icon/facebook.png" style="margin-right: 1%;"/>
@@ -49,10 +84,8 @@
                         <img src="assets/icon/google.png" style="margin-right: 1%;"/>
                         Connect with Google
                     </button>
-                </div>
-            </div>
-        </ion-row>
-      </ion-grid>
-
-
+                </div> -->
+      </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -13,9 +13,9 @@ export const environment = {
     messagingSenderId: "555233622364",
     appId: "1:555233622364:web:64cc8a8a3de82716b1e999"
   },
-  googlePLus: {
-    key: 'AIzaSyB7hoUwB7ze6oTTwIg4CiPzt40x9O5keT4'
-  }
+  // googlePLus: {
+  //   key: 'AIzaSyB7hoUwB7ze6oTTwIg4CiPzt40x9O5keT4'
+  // }
 };
 
 /*

@@ -11,54 +11,55 @@ import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthFirebaseService {
-  
+
   public user = new BehaviorSubject<firebase.default.User>(null);
   constructor(
     private afAuth: AngularFireAuth,
     private gplus: GooglePlus,
     private platform: Platform,
     private router: Router,
-  ) {}
+  ) { }
 
-    get userData(){
-      return this.user.value;
-    }
+  get userData() {
+    return this.user.value;
+  }
 
   async login(username, password) {
     return this.afAuth.signInWithEmailAndPassword(username, password).then((user) => {
-      localStorage.setItem("userId",user.user.uid);
-      localStorage.setItem("user",JSON.stringify(user.user));
+      localStorage.setItem("userId", user.user.uid);
+      localStorage.setItem("user", JSON.stringify(user.user));
       this.user.next(user.user);
+
     });
   }
 
-    // Register user with email/password
-    RegisterUser(email, password) {
-      return this.afAuth.createUserWithEmailAndPassword(email, password);
-    }
+  // Register user with email/password
+  RegisterUser(email, password) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password);
+  }
 
-  googleLogin() {
-    if (this.platform.is("capacitor") || this.platform.is("cordova")) {
-      this.nativeGoogleLogin();
-    } else {
-      this.webGoogleLogin();
-    }
-  }
-  async nativeGoogleLogin() {
-    try {
-      const gplusUser = await this.gplus.login({
-        webClientId: environment.googlePLus.key,
-        offline: true,
-        scopes: "profile email",
-      });
-      const credential = firebase.default.auth.GoogleAuthProvider.credential(
-        gplusUser.idToken
-      );
-      return this.afAuth.signInWithCredential(credential);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // googleLogin() {
+  //   if (this.platform.is("capacitor") || this.platform.is("cordova")) {
+  //     this.nativeGoogleLogin();
+  //   } else {
+  //     this.webGoogleLogin();
+  //   }
+  // }
+  // async nativeGoogleLogin() {
+  //   try {
+  //     const gplusUser = await this.gplus.login({
+  //       webClientId: environment.googlePLus.key,
+  //       offline: true,
+  //       scopes: "profile email",
+  //     });
+  //     const credential = firebase.default.auth.GoogleAuthProvider.credential(
+  //       gplusUser.idToken
+  //     );
+  //     return this.afAuth.signInWithCredential(credential);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   async webGoogleLogin() {
     try {
@@ -71,8 +72,8 @@ export class AuthFirebaseService {
 
   async logout() {
     await this.afAuth.signOut().then(() => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
+      localStorage.clear();
+      this.router.navigate(['/login']);
     });
   }
 }

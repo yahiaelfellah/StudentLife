@@ -1,4 +1,4 @@
-import { AntdModule } from '../antd.module';
+import { AntdModule } from '../../antd.module';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
-import { MyCardComponent } from '../components/my-card/my-card.component';
+import { MyCardComponent } from '../../components/my-card/my-card.component';
 import { RbLetterAvatarModule } from 'rb-letter-avatar'; // <-- import the module
 import { AvatarModule } from 'ngx-avatar';
 
@@ -23,6 +23,6 @@ import { AvatarModule } from 'ngx-avatar';
     AvatarModule
 
   ],
-  declarations: [Tab2Page,MyCardComponent]
+  declarations: [Tab2Page, MyCardComponent]
 })
-export class Tab2PageModule {}
+export class Tab2PageModule { }

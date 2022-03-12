@@ -21,8 +21,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-
+import { Network } from '@ionic-native/network/ngx';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,26 +32,26 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NzIconModule,
+    IonicStorageModule.forRoot(),
     NgCircleProgressModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    AvatarModule
-    
+    AvatarModule,
+
 
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {provide:GooglePlus,useValue:{}}
-    ,
-    ],
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,5 +1,5 @@
-import { TimePipe } from "../helper/pipes/time.pipe";
-import { AntdModule } from "../antd.module";
+import { TimePipe } from "../../helper/pipes/time.pipe";
+import { AntdModule } from "../../antd.module";
 import { IonicModule } from "@ionic/angular";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -26,4 +26,4 @@ import { AvatarModule } from 'ngx-avatar';
   ],
   declarations: [HomePage, TimePipe],
 })
-export class Tab1PageModule {}
+export class Tab1PageModule { }

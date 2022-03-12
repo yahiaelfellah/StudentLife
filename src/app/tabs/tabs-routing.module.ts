@@ -7,17 +7,17 @@ const routes: Routes = [
     path: '',
     component: TabsPage,
     children: [
-      {
-        path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.Tab1PageModule)
-      },
+      // {
+      //   path: 'home',
+      //   loadChildren: () => import('../unused/home/home.module').then(m => m.Tab1PageModule)
+      // },
       {
         path: 'homeiot',
         loadChildren: () => import('../homeiot/homeiot.module').then(m => m.HomeiotPageModule)
       },
       {
         path: 'classes',
-        loadChildren: () => import('../classes/tab2.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../unused/classes/tab2.module').then(m => m.Tab2PageModule)
       },
       {
         path: 'task',
@@ -25,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: "profile",
-        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule),
+        loadChildren: () => import('../unused/profile/profile.module').then(m => m.ProfilePageModule),
       },
       {
         path: '',

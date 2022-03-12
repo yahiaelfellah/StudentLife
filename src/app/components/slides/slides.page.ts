@@ -3,7 +3,7 @@ import { UserService } from './../../services/user.service';
 import { BehaviorSubject } from 'rxjs';
 import { Component, ViewChild } from "@angular/core";
 import { IonSlides, NavController, NavParams } from "@ionic/angular";
-import { HomePage } from "src/app/home/home.page";
+import { HomePage } from "src/app/unused/home/home.page";
 import { Router } from '@angular/router';
 @Component({
   selector: "app-slides",
@@ -11,26 +11,26 @@ import { Router } from '@angular/router';
   styleUrls: ["./slides.page.scss"],
 })
 export class SlidesPage {
-  public displyName: string ='';
-  public _index : BehaviorSubject<number> = new BehaviorSubject<number>(0); 
-  @ViewChild('mySlider')  slides: IonSlides;
+  public displyName: string = '';
+  public _index: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  @ViewChild('mySlider') slides: IonSlides;
 
-  constructor(private router : Router, private userService : UserService) {
+  constructor(private router: Router, private userService: UserService) {
 
   }
   slideOpts = {
     initialSlide: 0,
     speed: 400
   };
-  finish(){
+  finish() {
     this.router.navigate(["home"]);
   }
-  swipeNext(){
+  swipeNext() {
     const user = JSON.parse(localStorage.getItem("user"));
     const _user = {
-      displayName:this.displyName,
+      displayName: this.displyName,
     }
-    this.userService.editUser(user.uid,_user);
+    this.userService.editUser(user.uid, _user);
     this.slides.slideNext();
   }
 

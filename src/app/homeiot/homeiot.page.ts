@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Accelorometer, Flame, Gas, Temperature } from '../models/iot.model';
-import { _User } from '../models/user.model';
+import { User, _User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { IotService } from '../services/iot.service';
 import { UserService } from '../services/user.service';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-homeiot',
@@ -21,7 +23,7 @@ export class HomeiotPage implements OnInit {
 
   private currentTemperature: Temperature = null;
   private LPGCurve = [2.3, 0.21, -0.47]
-  constructor(public authService: AuthenticationService, public userService: UserService, public iotservice: IotService) {
+  constructor(public authService: AuthenticationService, public userService: UserService, public iotservice: IotService, public plt: Platform, private vibration: Vibration) {
     this.iotservice.getTemperature().subscribe(value => this.temperatures.next(value));
     this.iotservice.getGas().subscribe(value => this.gas.next(value));
     this.iotservice.getFlame().subscribe(value => this.flames.next(value));
@@ -49,7 +51,15 @@ export class HomeiotPage implements OnInit {
     return (Math.pow(10, (((Math.log10(value) - this.LPGCurve[1]) / this.LPGCurve[2]) + this.LPGCurve[0]))).toFixed(3)
   }
   public CheckFlame(value: any) {
-    return value == 0 ? "Good" : "Alert"
+    if (value == 1) {
+      this.vibrateWithPattern();
+    }
+    return value == 1 ? "Good" : "Alert"
+  }
+
+  vibrateWithPattern() {
+    // Patterns work on Android and Windows only
+    this.vibration.vibrate(500);
   }
   public calculateAcceleration(value: any) {
     return value ? Math.sqrt(Math.pow(value.Ax, 2) + Math.pow(value.Ay, 2) + Math.pow(value.Az, 2)).toFixed(1) : NaN;
@@ -60,12 +70,18 @@ export class HomeiotPage implements OnInit {
   updateOpened(value) {
     this.cardN = value
   }
+
+  getLast10elements(array: any[]) {
+    return array.slice(Math.max(array.length - 5, 0)).reverse();
+  }
   ngOnInit() {
     setTimeout(() => {
       this._user = this.userService._user;
-      console.log()
-      console.log(this._user);
     }, 100)
+    if (!this._user) {
+      var user = localStorage.getItem("user") as any;
+      this.userService.createUser(user);
+    }
   }
 
 }

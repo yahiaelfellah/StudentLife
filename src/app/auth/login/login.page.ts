@@ -26,7 +26,7 @@ export class LoginPage implements OnInit {
     private authenticationService: AuthenticationService,
     public loadingController: LoadingController,
     public afService: AuthFirebaseService,
-    private userService : UserService
+    private userService: UserService
 
   ) {
 
@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       username: ["", Validators.required],
-      password: ["",Validators.required]
+      password: ["", Validators.required]
     });
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
@@ -67,10 +67,13 @@ export class LoginPage implements OnInit {
         })
 
       }
-    )
+    ).catch(err => {
+      loading.dismiss();
+      this.loading = false;
+    })
 
   }
-  async onGoolgeLogin(){
+  async onGoolgeLogin() {
     this.loading = true;
     const loading = await this.loadingController.create({
       cssClass: "custom-laoding",

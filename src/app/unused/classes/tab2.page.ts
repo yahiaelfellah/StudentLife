@@ -1,6 +1,6 @@
-import { ClassService } from "./../services/class.service";
+import { ClassService } from "../../services/class.service";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
-import { Class } from "../models/class.model";
+import { Class } from "../../models/class.model";
 import { BehaviorSubject } from "rxjs";
 import * as moment from "moment";
 import { AlertController } from "@ionic/angular";
@@ -12,9 +12,9 @@ import { AlertController } from "@ionic/angular";
 })
 export class Tab2Page {
   public data: BehaviorSubject<Class[]>;
-  public searchTerm : string ="";
+  public searchTerm: string = "";
   private userId: string = "";
-  constructor(private classService: ClassService,public alertController: AlertController) {
+  constructor(private classService: ClassService, public alertController: AlertController) {
     this.data = new BehaviorSubject<Class[]>([]);
     this.classService.newClass.next(false);
 
@@ -40,22 +40,22 @@ export class Tab2Page {
     value.split(" ");
   }
 
-  checkStatus(value){
+  checkStatus(value) {
     const remaining = moment(value).diff(moment(), "days");
-    if(remaining < 0) {
+    if (remaining < 0) {
       return {
-        status:'processing',
-        text:'Running'
+        status: 'processing',
+        text: 'Running'
       }
     }
     return {
-      status:'success',
-      text:'Ended'
+      status: 'success',
+      text: 'Ended'
     }
   }
 
 
-  async deleteCourse(_class:Class) {
+  async deleteCourse(_class: Class) {
     const alert = await this.alertController.create({
       header: 'Delete !',
       message: `Are you sure u want to delete ${_class.title}`,
@@ -74,11 +74,11 @@ export class Tab2Page {
     });
     await alert.present();
   }
-  filterItems(searchTerm){
+  filterItems(searchTerm) {
     return this.data.value.filter((item) => {
-         return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-     });  
+      return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
- }
-  
+  }
+
 }

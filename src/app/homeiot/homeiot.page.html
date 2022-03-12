@@ -34,7 +34,7 @@
   </ion-row> -->
     <ion-grid>
       <ion-row id="content">
-        <img src="../../assets/images/homeIot.gif" />
+        <img src="../../assets/images/homeIot.gif" style="width: 78%" />
       </ion-row>
       <ion-row id="task">
         <h5>My Day</h5>
@@ -62,9 +62,14 @@
                     </div>
                     <div class="stats__measure">
                       <div class="stats__value">
-                        {{_temperatures[_temperatures.length - 1]}}
+                        {{_temperatures[_temperatures.length - 1].value}}
                       </div>
+
                       <div class="stats__unit stats__unit_celsius">C</div>
+                    </div>
+                    <div class="dashboard-card__title">
+                      {{_temperatures[_temperatures.length - 1].Time | date
+                      :"short"}}
                     </div>
                   </div>
                   <!-- <div class="stats__item">
@@ -86,15 +91,17 @@
           <div class="dashboard-card__title">Previous Temperature values</div>
           <ion-list>
             <ion-item
-              *ngFor="let item of _temperatures"
+              *ngFor="let t of getLast10elements(_temperatures)"
               lines="none"
               style="padding-left: 10%"
             >
               <ion-label>
+                <div style="font-size: x-small; font-style: italic">
+                  {{t.Time | date: "short"}}
+                </div>
+
                 <div class="stats__measure">
-                  <div class="stats__value__small">
-                    {{_temperatures[_temperatures.length - 1]}}
-                  </div>
+                  <div class="stats__value__small">{{t.value}}</div>
                   <div class="stats__unit__small stats__unit_celsius_small">
                     C
                   </div>
@@ -120,9 +127,12 @@
               <div class="stats__item">
                 <div class="stats__measure">
                   <div class="stats__value">
-                    {{convertToPPM(_gases[_gases.length - 1])}}
+                    {{convertToPPM(_gases[_gases.length - 1].value)}}
                   </div>
                   <div class="stats__unit stats__unit_ppm">ppm</div>
+                </div>
+                <div class="dashboard-card__title">
+                  {{_gases[_gases.length - 1].Time | date :"short"}}
                 </div>
               </div>
             </div>
@@ -132,14 +142,17 @@
           <div class="dashboard-card__title">Previous gas values</div>
           <ion-list>
             <ion-item
-              *ngFor="let item of _gases"
+              *ngFor="let item of getLast10elements(_gases)"
               lines="none"
               style="padding-left: 10%"
             >
               <ion-label>
+                <div style="font-size: x-small; font-style: italic">
+                  {{item.Time | date: "short"}}
+                </div>
                 <div class="stats__measure">
                   <div class="stats__value__small">
-                    {{convertToPPM(_gases[_gases.length - 1])}}
+                    {{convertToPPM(item.value)}}
                   </div>
                   <div class="stats__unit__small stats__unit_ppm">ppm</div>
                 </div></ion-label
@@ -164,8 +177,11 @@
               <div class="stats__item">
                 <div class="stats__measure">
                   <div class="stats__value">
-                    {{CheckFlame(_flames[_flames.length - 1])}}
+                    {{CheckFlame(_flames[_flames.length - 1].value)}}
                   </div>
+                </div>
+                <div class="dashboard-card__title">
+                  {{_flames[_flames.length - 1].Time | date :"short"}}
                 </div>
               </div>
             </div>
@@ -175,14 +191,14 @@
           <div class="dashboard-card__title">Previous Flame status</div>
           <ion-list>
             <ion-item
-              *ngFor="let item of _flames"
+              *ngFor="let item of getLast10elements(_flames)"
               lines="none"
               style="padding-left: 10%"
             >
               <ion-label>
                 <div class="stats__measure">
                   <div class="stats__value__small">
-                    {{CheckFlame(_flames[_flames.length - 1])}}
+                    {{CheckFlame(_flames[_flames.length - 1].value)}}
                   </div>
                 </div></ion-label
               >
@@ -217,5 +233,7 @@
         <span class="card-content"> </span>
       </my-card>
     </ion-grid>
+    <br />
+    <br />
   </div>
 </ion-content>
