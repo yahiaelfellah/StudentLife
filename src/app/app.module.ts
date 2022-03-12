@@ -1,4 +1,4 @@
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+// import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { environment } from "./../environments/environment";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
@@ -22,7 +22,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
 import { Network } from '@ionic-native/network/ngx';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +35,6 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     FormsModule,
     ReactiveFormsModule,
     NzIconModule,
-    IonicStorageModule.forRoot(),
     NgCircleProgressModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
@@ -50,6 +49,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     StatusBar,
     SplashScreen,
     Network,
+    Vibration,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

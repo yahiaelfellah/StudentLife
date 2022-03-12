@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../models/user.model";
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as firebase from "firebase/app";
-import { GooglePlus } from "@ionic-native/google-plus/ngx";
+// import { GooglePlus } from "@ionic-native/google-plus/ngx";
 import { redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 import { Router } from "@angular/router";
 
@@ -15,7 +15,6 @@ export class AuthFirebaseService {
   public user = new BehaviorSubject<firebase.default.User>(null);
   constructor(
     private afAuth: AngularFireAuth,
-    private gplus: GooglePlus,
     private platform: Platform,
     private router: Router,
   ) { }
@@ -61,14 +60,14 @@ export class AuthFirebaseService {
   //   }
   // }
 
-  async webGoogleLogin() {
-    try {
-      const provider = new firebase.default.auth.GoogleAuthProvider();
-      const credential = await this.afAuth.signInWithPopup(provider);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // async webGoogleLogin() {
+  //   try {
+  //     const provider = new firebase.default.auth.GoogleAuthProvider();
+  //     const credential = await this.afAuth.signInWithPopup(provider);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   async logout() {
     await this.afAuth.signOut().then(() => {

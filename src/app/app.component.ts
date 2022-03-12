@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
   ) {
     this.initializeApp();
   }
@@ -27,10 +27,14 @@ export class AppComponent {
     });
   }
   initializeApp() {
+
     this.platform.ready().then(() => {
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.OneSignalInit();
+      }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.OneSignalInit();
+
     });
   }
 }

@@ -20,14 +20,14 @@ export class AuthenticationService {
     public ngFireAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    private userService : UserService
+    private userService: UserService
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
       if (user) {
         this.userService.getUserById(user.uid).subscribe(value => {
-            this.userService.user.next(value);
-  
-          })
+          this.userService.user.next(value);
+
+        })
         this.userData = user;
         localStorage.setItem("user", JSON.stringify(this.userData));
       } else {
@@ -43,8 +43,8 @@ export class AuthenticationService {
 
   // Register user with email/password
   RegisterUser(email, password) {
-    return this.ngFireAuth.createUserWithEmailAndPassword(email, password).then( (user)=> {
-        this.SetUserData(user.user);
+    return this.ngFireAuth.createUserWithEmailAndPassword(email, password).then((user) => {
+      this.SetUserData(user.user);
     });
   }
 
@@ -82,10 +82,10 @@ export class AuthenticationService {
     return user.emailVerified !== false ? true : false;
   }
 
-  // Sign in with Gmail
-  GoogleAuth() {
-    return this.AuthLogin(new firebase.default.auth.GoogleAuthProvider());
-  }
+  // // Sign in with Gmail
+  // GoogleAuth() {
+  //   return this.AuthLogin(new firebase.default.auth.GoogleAuthProvider());
+  // }
 
   // Auth providers
   AuthLogin(provider) {

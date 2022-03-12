@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { Accelorometer, Flame, Gas, Temperature } from '../models/iot.model';
+import { Accelorometer, AccelorometerValue, Flame, Gas, Status, Temperature } from '../models/iot.model';
 import { User, _User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { IotService } from '../services/iot.service';
@@ -19,8 +19,10 @@ export class HomeiotPage implements OnInit {
   public temperatures: BehaviorSubject<Temperature[]> = new BehaviorSubject(null);
   public gas: BehaviorSubject<Gas[]> = new BehaviorSubject(null);
   public flames: BehaviorSubject<Flame[]> = new BehaviorSubject(null);
+  public devices: BehaviorSubject<object> = new BehaviorSubject(null);
+  public devicesStatus: BehaviorSubject<Status[]> = new BehaviorSubject(null);
   public accelorometers: BehaviorSubject<Accelorometer[]> = new BehaviorSubject(null);
-
+  public deviceClicked = null;
   private currentTemperature: Temperature = null;
   private LPGCurve = [2.3, 0.21, -0.47]
   constructor(public authService: AuthenticationService, public userService: UserService, public iotservice: IotService, public plt: Platform, private vibration: Vibration) {
@@ -28,25 +30,34 @@ export class HomeiotPage implements OnInit {
     this.iotservice.getGas().subscribe(value => this.gas.next(value));
     this.iotservice.getFlame().subscribe(value => this.flames.next(value));
     this.iotservice.getAccelorometer().subscribe(value => this.accelorometers.next(value));
+    this.iotservice.getDevices().subscribe(value => this.devices.next(value));
+    this.iotservice.getDevicesStatus().subscribe(value => this.devicesStatus.next(value));
   }
 
 
   get _temperatures() {
-    return this.temperatures.getValue() ? this.temperatures.getValue() : [];
+    return this.temperatures.getValue() ? this.temperatures.getValue().filter(o => o.deviceId === this.deviceClicked) : null;
   }
   get _gases() {
-    return this.gas.getValue() ? this.gas.getValue() : [];
+    return this.gas.getValue() ? this.gas.getValue().filter(o => o.deviceId === this.deviceClicked) : null;
   }
   get _flames() {
-    return this.flames.getValue() ? this.flames.getValue() : [];
+    return this.flames.getValue() ? this.flames.getValue().filter(o => o.deviceId === this.deviceClicked) : null;
   }
   get _accelorometers() {
-    return this.accelorometers.getValue() ? this.accelorometers.getValue() : [];
+    return this.accelorometers.getValue() ? this.accelorometers.getValue().filter(o => o.deviceId === this.deviceClicked) : null;
   }
   get date() {
     return new Date().toDateString();
   }
 
+  get _devices() {
+    return this.devices.getValue() ? Object.keys(this.devices.getValue()) : null;
+  }
+
+  get status() {
+    return this.devicesStatus.getValue() ? this.devicesStatus.getValue()[this.devicesStatus.getValue().length - 1].Status === "running" : false;
+  }
   public convertToPPM(value: any) {
     return (Math.pow(10, (((Math.log10(value) - this.LPGCurve[1]) / this.LPGCurve[2]) + this.LPGCurve[0]))).toFixed(3)
   }
@@ -57,12 +68,16 @@ export class HomeiotPage implements OnInit {
     return value == 1 ? "Good" : "Alert"
   }
 
+  clicked(event) {
+    this.deviceClicked = event;
+  }
   vibrateWithPattern() {
     // Patterns work on Android and Windows only
     this.vibration.vibrate(500);
   }
-  public calculateAcceleration(value: any) {
-    return value ? Math.sqrt(Math.pow(value.Ax, 2) + Math.pow(value.Ay, 2) + Math.pow(value.Az, 2)).toFixed(1) : NaN;
+  public calculateAcceleration(data: any) {
+    var _data = JSON.parse(data.value) as AccelorometerValue;
+    return _data ? Math.sqrt(Math.pow(_data.Ax, 2) + Math.pow(_data.Ay, 2) + Math.pow(_data.Az, 2)).toFixed(1) : NaN;
   }
   updateClosed() {
     this.cardN = 0;

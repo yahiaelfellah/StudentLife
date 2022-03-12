@@ -23,10 +23,7 @@
       <ion-title style="text-align: center" size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header> -->
-  <!-- <div id="loading" *ngIf="!_user">
-    <ion-spinner name="crescent"></ion-spinner>
-    loading...
-  </div> -->
+
   <div>
     <!-- <ion-row id="account">
     <ngx-avatar [name]="_user?.displayName" size=80></ngx-avatar>
@@ -34,45 +31,84 @@
   </ion-row> -->
     <ion-grid>
       <ion-row id="content">
-        <img src="../../assets/images/homeIot.gif" style="width: 78%" />
+        <img src="assets/images/homeIot.gif" style="width: 78%" />
       </ion-row>
       <ion-row id="task">
-        <h5>My Day</h5>
+        <h5>My Devices</h5>
         <p>Today - {{date}}</p>
       </ion-row>
-
-      <my-card
-        *ngIf="cardN == 1 || cardN == 0"
-        (cardClosed)="updateClosed()"
-        (cardOpened)="updateOpened(1)"
-      >
-        <span class="card-title">
-          <div class="dashboard-card temperature">
-            <div class="dashboard-card__title">
-              <img src="assets/images/thermometer.png" style="width: 18%" />
-              Temperature
+      <div id="loading" *ngIf="!_user && !_devices">
+        <ion-spinner name="crescent"></ion-spinner>
+        loading...
+      </div>
+      <ng-container *ngFor="let device of _devices">
+        <ion-card (click)="clicked(device)">
+          <ion-item fill="none">
+            <ion-avatar slot="start">
+              <img src="assets/images/raspberry-pi-32px.png" />
+            </ion-avatar>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+              "
+            >
+              <span style="font-style: italic; font-size: smaller"
+                >Serial Number</span
+              >
+              <span class="card-content">{{device}}</span>
             </div>
-            <div class="dashboad-card__content">
-              <div class="dashboard-card__card-piece">
-                <div class="temperature-stats">
-                  <div class="stats__item">
-                    <div class="stats__title">Indoor</div>
-                    <div class="stats__icon">
-                      <span class="fa fa-home"></span>
-                    </div>
-                    <div class="stats__measure">
-                      <div class="stats__value">
-                        {{_temperatures[_temperatures.length - 1].value}}
-                      </div>
 
-                      <div class="stats__unit stats__unit_celsius">C</div>
+            <ion-button shape="round" fill="none" slot="end">
+              <span
+                class="circle pulse-on"
+                [ngStyle]="{
+                background: !status ? '#e74c3c' : '#27ae60'
+              }"
+                [ngClass]="status ? 'pulse-on' : 'pulse-off'"
+              ></span
+            ></ion-button>
+          </ion-item>
+        </ion-card>
+      </ng-container>
+
+      <ng-container *ngIf="deviceClicked">
+        <ion-row id="task" style="padding-bottom: 0%">
+          <p>Status for {{deviceClicked}}</p>
+        </ion-row>
+        <my-card
+          *ngIf="_temperatures && (cardN == 1 || cardN == 0)"
+          (cardClosed)="updateClosed()"
+          (cardOpened)="updateOpened(1)"
+        >
+          <span class="card-title">
+            <div class="dashboard-card temperature">
+              <div class="dashboard-card__title">
+                <img src="assets/images/thermometer.png" style="width: 18%" />
+                Temperature
+              </div>
+              <div class="dashboad-card__content">
+                <div class="dashboard-card__card-piece">
+                  <div class="temperature-stats">
+                    <div class="stats__item">
+                      <div class="stats__title">Indoor</div>
+                      <div class="stats__icon">
+                        <span class="fa fa-home"></span>
+                      </div>
+                      <div class="stats__measure">
+                        <div class="stats__value">
+                          {{_temperatures[_temperatures.length - 1].value}}
+                        </div>
+
+                        <div class="stats__unit stats__unit_celsius">C</div>
+                      </div>
+                      <div class="dashboard-card__title">
+                        {{_temperatures[_temperatures.length - 1].Time | date
+                        :"short"}}
+                      </div>
                     </div>
-                    <div class="dashboard-card__title">
-                      {{_temperatures[_temperatures.length - 1].Time | date
-                      :"short"}}
-                    </div>
-                  </div>
-                  <!-- <div class="stats__item">
+                    <!-- <div class="stats__item">
                     <div class="stats__title">Outdoor</div>
                     <div class="stats__icon">
                       <span class="wi wi-day-cloudy"></span>
@@ -82,156 +118,188 @@
                       <div class="stats__unit stats__unit_celsius">C</div>
                     </div>
                   </div> -->
+                  </div>
                 </div>
               </div>
-            </div>
-          </div></span
-        >
-        <span class="card-content">
-          <div class="dashboard-card__title">Previous Temperature values</div>
-          <ion-list>
-            <ion-item
-              *ngFor="let t of getLast10elements(_temperatures)"
-              lines="none"
-              style="padding-left: 10%"
-            >
-              <ion-label>
-                <div style="font-size: x-small; font-style: italic">
-                  {{t.Time | date: "short"}}
-                </div>
-
-                <div class="stats__measure">
-                  <div class="stats__value__small">{{t.value}}</div>
-                  <div class="stats__unit__small stats__unit_celsius_small">
-                    C
-                  </div>
-                </div></ion-label
+            </div></span
+          >
+          <span class="card-content">
+            <div class="dashboard-card__title">Previous Temperature values</div>
+            <ion-list>
+              <ion-item
+                *ngFor="let t of getLast10elements(_temperatures)"
+                lines="none"
+                style="padding-left: 10%"
               >
-            </ion-item>
-          </ion-list>
-        </span>
-      </my-card>
+                <ion-label>
+                  <div style="font-size: x-small; font-style: italic">
+                    {{t.Time | date: "short"}}
+                  </div>
 
-      <my-card
-        *ngIf="cardN == 2 || cardN == 0"
-        (cardClosed)="updateClosed()"
-        (cardOpened)="updateOpened(2)"
-      >
-        <span class="card-title">
-          <div class="dashboard-card temperature">
-            <div class="dashboard-card__title">
-              <img src="assets/images/gas.png" style="width: 18%" />
-              Gas (Methane, Butane, LPG, smoke)
-            </div>
-            <div class="dashboard-card__card-piece">
-              <div class="stats__item">
-                <div class="stats__measure">
-                  <div class="stats__value">
-                    {{convertToPPM(_gases[_gases.length - 1].value)}}
-                  </div>
-                  <div class="stats__unit stats__unit_ppm">ppm</div>
-                </div>
-                <div class="dashboard-card__title">
-                  {{_gases[_gases.length - 1].Time | date :"short"}}
-                </div>
-              </div>
-            </div>
-          </div></span
-        >
-        <span class="card-content">
-          <div class="dashboard-card__title">Previous gas values</div>
-          <ion-list>
-            <ion-item
-              *ngFor="let item of getLast10elements(_gases)"
-              lines="none"
-              style="padding-left: 10%"
-            >
-              <ion-label>
-                <div style="font-size: x-small; font-style: italic">
-                  {{item.Time | date: "short"}}
-                </div>
-                <div class="stats__measure">
-                  <div class="stats__value__small">
-                    {{convertToPPM(item.value)}}
-                  </div>
-                  <div class="stats__unit__small stats__unit_ppm">ppm</div>
-                </div></ion-label
-              >
-            </ion-item>
-          </ion-list>
-        </span>
-      </my-card>
+                  <div class="stats__measure">
+                    <div class="stats__value__small">{{t.value}}</div>
+                    <div class="stats__unit__small stats__unit_celsius_small">
+                      C
+                    </div>
+                  </div></ion-label
+                >
+              </ion-item>
+            </ion-list>
+          </span>
+        </my-card>
 
-      <my-card
-        *ngIf="cardN == 3 || cardN == 0"
-        (cardClosed)="updateClosed()"
-        (cardOpened)="updateOpened(3)"
-      >
-        <span class="card-title">
-          <div class="dashboard-card temperature">
-            <div class="dashboard-card__title">
-              <img src="assets/images/flame.png" style="width: 18%" />
-              Flame
-            </div>
-            <div class="dashboard-card__card-piece">
-              <div class="stats__item">
-                <div class="stats__measure">
-                  <div class="stats__value">
-                    {{CheckFlame(_flames[_flames.length - 1].value)}}
+        <my-card
+          *ngIf="_gases && (cardN == 2 || cardN == 0)"
+          (cardClosed)="updateClosed()"
+          (cardOpened)="updateOpened(2)"
+        >
+          <span class="card-title">
+            <div class="dashboard-card temperature">
+              <div class="dashboard-card__title">
+                <img src="assets/images/gas.png" style="width: 18%" />
+                Gas (Methane, Butane, LPG, smoke)
+              </div>
+              <div class="dashboard-card__card-piece">
+                <div class="stats__item">
+                  <div class="stats__measure">
+                    <div class="stats__value">
+                      {{convertToPPM(_gases[_gases.length - 1].value)}}
+                    </div>
+                    <div class="stats__unit stats__unit_ppm">ppm</div>
                   </div>
-                </div>
-                <div class="dashboard-card__title">
-                  {{_flames[_flames.length - 1].Time | date :"short"}}
+                  <div class="dashboard-card__title">
+                    {{_gases[_gases.length - 1].Time | date :"short"}}
+                  </div>
                 </div>
               </div>
             </div>
-          </div></span
-        >
-        <span class="card-content">
-          <div class="dashboard-card__title">Previous Flame status</div>
-          <ion-list>
-            <ion-item
-              *ngFor="let item of getLast10elements(_flames)"
-              lines="none"
-              style="padding-left: 10%"
-            >
-              <ion-label>
-                <div class="stats__measure">
-                  <div class="stats__value__small">
-                    {{CheckFlame(_flames[_flames.length - 1].value)}}
-                  </div>
-                </div></ion-label
+          </span>
+          <span class="card-content">
+            <div class="dashboard-card__title">Previous gas values</div>
+            <ion-list>
+              <ion-item
+                *ngFor="let item of getLast10elements(_gases)"
+                lines="none"
+                style="padding-left: 10%"
               >
-            </ion-item>
-          </ion-list>
-        </span>
-      </my-card>
-      <my-card
-        *ngIf="cardN == 4 || cardN == 0"
-        (cardClosed)="updateClosed()"
-        (cardOpened)="updateOpened(4)"
-      >
-        <span class="card-title">
-          <div class="dashboard-card temperature">
-            <div class="dashboard-card__title">
-              <img src="assets/images/acceleration.png" style="width: 18%" />
-              Acceleration
-            </div>
-            <div class="dashboard-card__card-piece">
-              <div class="stats__item">
-                <div class="stats__measure">
-                  <div class="stats__value">
-                    {{calculateAcceleration(_accelorometers[_accelorometers.length
-                    - 1])}}
+                <ion-label>
+                  <div style="font-size: x-small; font-style: italic">
+                    {{item.Time | date: "short"}}
                   </div>
-                  <div class="stats__unit stats__unit_acceleration">m.s</div>
+                  <div class="stats__measure">
+                    <div class="stats__value__small">
+                      {{convertToPPM(item.value)}}
+                    </div>
+                    <div class="stats__unit__small stats__unit_ppm">ppm</div>
+                  </div></ion-label
+                >
+              </ion-item>
+            </ion-list>
+          </span>
+        </my-card>
+
+        <my-card
+          *ngIf="_flames && (cardN == 3 || cardN == 0)"
+          (cardClosed)="updateClosed()"
+          (cardOpened)="updateOpened(3)"
+        >
+          <span class="card-title">
+            <div class="dashboard-card temperature">
+              <div class="dashboard-card__title">
+                <img src="assets/images/flame.png" style="width: 18%" />
+                Flame
+              </div>
+              <div class="dashboard-card__card-piece">
+                <div class="stats__item">
+                  <div class="stats__measure">
+                    <div class="stats__value">
+                      {{CheckFlame(_flames[_flames.length - 1].value)}}
+                    </div>
+                  </div>
+                  <div class="dashboard-card__title">
+                    {{_flames[_flames.length - 1].Time | date :"short"}}
+                  </div>
                 </div>
               </div>
-            </div>
-          </div></span
+            </div></span
+          >
+          <span class="card-content">
+            <div class="dashboard-card__title">Previous Flame status</div>
+            <ion-list>
+              <ion-item
+                *ngFor="let item of getLast10elements(_flames)"
+                lines="none"
+                style="padding-left: 10%"
+              >
+                <ion-label>
+                  <div class="stats__measure">
+                    <div class="stats__value__small">
+                      {{CheckFlame(_flames[_flames.length - 1].value)}}
+                    </div>
+                  </div></ion-label
+                >
+              </ion-item>
+            </ion-list>
+          </span>
+        </my-card>
+        <my-card
+          *ngIf="_accelorometers && (cardN == 4 || cardN == 0)"
+          (cardClosed)="updateClosed()"
+          (cardOpened)="updateOpened(4)"
         >
-        <span class="card-content"> </span>
-      </my-card>
+          <span class="card-title">
+            <div class="dashboard-card temperature">
+              <div class="dashboard-card__title">
+                <img src="assets/images/acceleration.png" style="width: 18%" />
+                Acceleration
+              </div>
+              <div class="dashboard-card__card-piece">
+                <div class="stats__item">
+                  <div class="stats__measure">
+                    <div class="stats__value">
+                      {{calculateAcceleration(_accelorometers[_accelorometers.length
+                      - 1])}}
+                    </div>
+                    <div class="stats__unit stats__unit_acceleration">m.s</div>
+                  </div>
+                  <div class="dashboard-card__title">
+                    {{_accelorometers[_accelorometers.length - 1].Time | date
+                    :"short"}}
+                  </div>
+                </div>
+              </div>
+            </div></span
+          >
+          <span class="card-content">
+            <div class="dashboard-card__title">
+              Previous accelorometer status
+            </div>
+            <ion-list>
+              <ion-item
+                *ngFor="let item of getLast10elements(_accelorometers)"
+                lines="none"
+                style="padding-left: 10%"
+              >
+                <ion-label>
+                  <div style="font-size: x-small; font-style: italic">
+                    {{item.Time | date: "short"}}
+                  </div>
+                  <div class="stats__measure">
+                    <div class="stats__value__small">
+                      {{calculateAcceleration(item)}}
+                    </div>
+                    <div
+                      class="stats__unit__small stats__unit_acceleration_small"
+                    >
+                      m.s
+                    </div>
+                  </div>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </span>
+        </my-card>
+      </ng-container>
     </ion-grid>
     <br />
     <br />

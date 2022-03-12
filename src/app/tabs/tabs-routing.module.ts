@@ -7,10 +7,10 @@ const routes: Routes = [
     path: '',
     component: TabsPage,
     children: [
-      // {
-      //   path: 'home',
-      //   loadChildren: () => import('../unused/home/home.module').then(m => m.Tab1PageModule)
-      // },
+      {
+        path: 'home',
+        loadChildren: () => import('../unused/home/home.module').then(m => m.Tab1PageModule)
+      },
       {
         path: 'homeiot',
         loadChildren: () => import('../homeiot/homeiot.module').then(m => m.HomeiotPageModule)
@@ -36,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'homeiot',
     pathMatch: 'full'
   }
 ];

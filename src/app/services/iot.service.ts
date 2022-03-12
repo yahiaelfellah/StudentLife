@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { Accelorometer, Flame, Gas, Temperature } from '../models/iot.model';
+import { Accelorometer, Flame, Gas, Status, Temperature } from '../models/iot.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class IotService {
   flame: AngularFireList<Flame>
   accelorometer: AngularFireList<Accelorometer>
   gas: AngularFireList<Gas>
+  devices: AngularFireList<any>
   constructor(private db: AngularFireDatabase) {
 
   }
@@ -30,5 +31,15 @@ export class IotService {
   getGas(): Observable<Temperature[]> {
     this.gas = this.db.list("gas");
     return this.gas.valueChanges();
+  }
+
+  getDevicesStatus(): Observable<Status[]> {
+    this.devices = this.db.list("devices");
+    return this.devices.valueChanges();
+  }
+
+
+  getDevices(): Observable<any> {
+    return this.db.object("devices").valueChanges();
   }
 }

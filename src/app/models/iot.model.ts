@@ -19,6 +19,10 @@ export class Gas {
 export class Accelorometer {
     Time: string
     deviceId: string
+    value: AccelorometerValue
+}
+
+export class AccelorometerValue {
     Ax: number;
     Ay: number;
     Az: number;
@@ -27,3 +31,7 @@ export class Accelorometer {
     Gz: number;
 }
 
+export class Status {
+    Status: string
+    Time: string
+}

@@ -73,17 +73,17 @@ export class LoginPage implements OnInit {
     })
 
   }
-  async onGoolgeLogin() {
-    this.loading = true;
-    const loading = await this.loadingController.create({
-      cssClass: "custom-laoding",
-      message: "Please wait...",
-    });
-    this.authenticationService.GoogleAuth().then((success) => {
-      loading.dismiss();
-      this.loading = false;
-      this.router.navigate(['home']);
-    })
-  }
+  // async onGoolgeLogin() {
+  //   this.loading = true;
+  //   const loading = await this.loadingController.create({
+  //     cssClass: "custom-laoding",
+  //     message: "Please wait...",
+  //   });
+  //   this.authenticationService.GoogleAuth().then((success) => {
+  //     loading.dismiss();
+  //     this.loading = false;
+  //     this.router.navigate(['home']);
+  //   })
+  // }
 }
 
